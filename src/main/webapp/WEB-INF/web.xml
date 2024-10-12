@@ -8,8 +8,16 @@
     <servlet-name>CategoryController</servlet-name>
     <servlet-class>com.servlet_ordering_system.controllers.CategoryController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ProductController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.ProductController</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>CategoryController</servlet-name>
     <url-pattern>/categories/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductController</servlet-name>
+    <url-pattern>/products/*</url-pattern>
   </servlet-mapping>
 </web-app>
