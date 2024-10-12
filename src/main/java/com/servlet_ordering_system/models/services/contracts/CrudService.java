@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface CrudService<T> {
 
-    List<T> findAll(Connection conn);
+    List<T> findAll();
 
-    T findById(Connection conn, Long id);
+    T findById(Long id);
 
-    T findByName(Connection conn, String name);
+    T findByName(String name);
 
-    T insert(Connection conn, T obj);
+    T insert(T obj);
 
-    T update(Connection conn, T obj);
+    T update(T obj);
 
-    void delete(Connection conn, Long id);
+    void delete(Long id);
 }
