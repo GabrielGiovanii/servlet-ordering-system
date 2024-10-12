@@ -4,4 +4,12 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>CategoryController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.CategoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CategoryController</servlet-name>
+    <url-pattern>/categories/*</url-pattern>
+  </servlet-mapping>
 </web-app>
