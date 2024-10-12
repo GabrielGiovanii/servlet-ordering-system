@@ -19,17 +19,35 @@ public class DatabaseConnection {
         }
     }
 
-    public static Connection getConnection()  {
+    public static Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
+
+        return null;
     }
 
     public static void closeConnection(Connection connection) {
         try {
             Objects.requireNonNull(connection).close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void setAutoCommit(Connection conn, boolean value) {
+        try {
+            conn.setAutoCommit(value);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void rollback(Connection conn) {
+        try {
+            conn.rollback();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
