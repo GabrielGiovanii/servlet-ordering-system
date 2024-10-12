@@ -1,11 +1,17 @@
 package com.servlet_ordering_system.models.vos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Category {
 
     private Long id;
     private String name;
+
+    @JsonIgnore
+    private final Set<Product> products = new HashSet<>();
 
     public Category() {
     }
