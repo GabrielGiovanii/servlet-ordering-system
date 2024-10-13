@@ -16,6 +16,10 @@
     <servlet-name>UserController</servlet-name>
     <servlet-class>com.servlet_ordering_system.controllers.UserController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AuthController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.AuthController</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>CategoryController</servlet-name>
     <url-pattern>/categories/*</url-pattern>
@@ -28,4 +32,11 @@
     <servlet-name>UserController</servlet-name>
     <url-pattern>/users/*</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AuthController</servlet-name>
+    <url-pattern>/auth</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
 </web-app>
