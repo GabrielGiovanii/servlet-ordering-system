@@ -9,7 +9,7 @@ public interface CrudDAO<T> {
 
     T findById(Connection conn, Long id);
 
-    T findByName(Connection conn, String name);
+    T findByString(Connection conn, String string);
 
     T insert(Connection conn, T obj);
 

@@ -1,4 +1,4 @@
-package com.servlet_ordering_system.dtos;
+package com.servlet_ordering_system.models.dtos;
 
 import com.servlet_ordering_system.models.vos.Category;
 import com.servlet_ordering_system.models.vos.Product;

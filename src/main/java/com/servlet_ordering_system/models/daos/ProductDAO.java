@@ -17,10 +17,10 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
         List<Product> products = new ArrayList<>();
 
         String commandSql = """
-                SELECT p.id, p.name, p.description, p.price, p.img_url,
-                       c.id AS category_id, c.name AS category_name
-                FROM tb_product p
-                INNER JOIN tb_category c ON p.category_id = c.id
+                SELECT p.id, p.name, p.description, p.price, p.img_url,\s
+                       c.id AS category_id, c.name AS category_name\s
+                FROM tb_product p\s
+                INNER JOIN tb_category c ON p.category_id = c.id\s
                 ORDER BY p.name;
                 """;
 
@@ -42,10 +42,10 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
         Product product = null;
 
         String commandSql = """
-                SELECT p.id, p.name, p.description, p.price, p.img_url,
-                       c.id AS category_id, c.name AS category_name
-                FROM tb_product p
-                INNER JOIN tb_category c ON p.category_id = c.id
+                SELECT p.id, p.name, p.description, p.price, p.img_url,\s
+                       c.id AS category_id, c.name AS category_name\s
+                FROM tb_product p\s
+                INNER JOIN tb_category c ON p.category_id = c.id\s
                 WHERE p.id = ?;
                 """;
 
@@ -65,19 +65,19 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
     }
 
     @Override
-    public Product findByName(Connection conn, String name) {
+    public Product findByString(Connection conn, String string) {
         Product product = null;
 
         String commandSql = """
-                SELECT p.id, p.name, p.description, p.price, p.img_url,
-                       c.id AS category_id, c.name AS category_name
-                FROM tb_product p
-                INNER JOIN tb_category c ON p.category_id = c.id
+                SELECT p.id, p.name, p.description, p.price, p.img_url,\s
+                       c.id AS category_id, c.name AS category_name\s
+                FROM tb_product p\s
+                INNER JOIN tb_category c ON p.category_id = c.id\s
                 WHERE p.name = ?;
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(commandSql)) {
-            ps.setString(1, name);
+            ps.setString(1, string);
 
             ResultSet rs = ps.executeQuery();
 
@@ -96,7 +96,7 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
         Product product = null;
 
         String commandSql = """
-                INSERT INTO tb_product (name, description, price, img_url, category_id)
+                INSERT INTO tb_product (name, description, price, img_url, category_id)\s
                 VALUES (?, ?, ?, ?, ?);
                 """;
 
@@ -132,8 +132,8 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
         Product product = null;
 
         String commandSql = """
-                UPDATE tb_product
-                SET name = ?, description = ?, price = ?, img_url = ?, category_id = ?
+                UPDATE tb_product\s
+                SET name = ?, description = ?, price = ?, img_url = ?, category_id = ?\s
                 WHERE id = ?;
                 """;
 
@@ -163,7 +163,7 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
     @Override
     public void delete(Connection conn, Long id) {
         String commandSql = """
-                DELETE FROM tb_product
+                DELETE FROM tb_product\s
                 WHERE id = ?;
                 """;
 

@@ -30,7 +30,7 @@ public class ProductService implements CrudService<Product> {
 
     @Override
     public Product findByName(String name) {
-        return dao.findByName(conn, name);
+        return dao.findByString(conn, name);
     }
 
     @Override

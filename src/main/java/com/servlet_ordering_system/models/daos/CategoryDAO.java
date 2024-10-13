@@ -63,7 +63,7 @@ public class CategoryDAO implements CrudDAO<Category> {
     }
 
     @Override
-    public Category findByName(Connection conn, String name) {
+    public Category findByString(Connection conn, String string) {
         Category category = null;
 
         String commandSql = """
@@ -73,14 +73,14 @@ public class CategoryDAO implements CrudDAO<Category> {
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(commandSql)) {
-            ps.setString(1, name);
+            ps.setString(1, string);
 
             ResultSet rs =  ps.executeQuery();
 
             if (rs.next()) {
                 Long id = rs.getLong("id");
 
-                category = new Category(id, name);
+                category = new Category(id, string);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

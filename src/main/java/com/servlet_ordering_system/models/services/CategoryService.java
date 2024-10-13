@@ -30,7 +30,7 @@ public class CategoryService implements CrudService<Category> {
 
     @Override
     public Category findByName(String name) {
-        return dao.findByName(conn, name);
+        return dao.findByString(conn, name);
     }
 
     @Override

@@ -12,6 +12,10 @@
     <servlet-name>ProductController</servlet-name>
     <servlet-class>com.servlet_ordering_system.controllers.ProductController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UserController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.UserController</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>CategoryController</servlet-name>
     <url-pattern>/categories/*</url-pattern>
@@ -19,5 +23,9 @@
   <servlet-mapping>
     <servlet-name>ProductController</servlet-name>
     <url-pattern>/products/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/users/*</url-pattern>
   </servlet-mapping>
 </web-app>

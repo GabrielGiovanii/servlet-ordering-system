@@ -1,24 +1,27 @@
 package com.servlet_ordering_system.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.servlet_ordering_system.models.services.CategoryService;
-import com.servlet_ordering_system.models.vos.Category;
+import com.servlet_ordering_system.models.dtos.UserResponseDTO;
+import com.servlet_ordering_system.models.dtos.UserSaveDTO;
+import com.servlet_ordering_system.models.services.UserService;
+import com.servlet_ordering_system.models.vos.User;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.servlet_ordering_system.controllers.exceptions.HandlerExceptionController.handleExceptionResponse;
 
-public class CategoryController extends HttpServlet {
+public class UserController extends HttpServlet {
 
-    private final CategoryService categoryService;
+    private final UserService userService;
     private final ObjectMapper objectMapper;
 
-    public CategoryController() {
-        this.categoryService = new CategoryService();
+    public UserController() {
+        this.userService = new UserService();
         this.objectMapper = new ObjectMapper();
     }
 
@@ -30,16 +33,19 @@ public class CategoryController extends HttpServlet {
             String action = req.getPathInfo();
 
             if (Objects.isNull(action)) {
-                List<Category> categories = categoryService.findAll();
+                List<User> users = userService.findAll();
+                List<UserResponseDTO> userResponseDTOS = users.stream()
+                        .map(UserResponseDTO::new)
+                        .collect(Collectors.toList());
 
-                resp.getWriter().write(objectMapper.writeValueAsString(categories));
+                resp.getWriter().write(objectMapper.writeValueAsString(userResponseDTOS));
             } else {
                 Long id = Long.parseLong(action.substring(1));
+                User user = userService.findById(id);
 
-                Category category = categoryService.findById(id);
-
-                if (Objects.nonNull(category)) {
-                    resp.getWriter().write(objectMapper.writeValueAsString(category));
+                if (Objects.nonNull(user)) {
+                    UserResponseDTO userResponseDTO = new UserResponseDTO(user);
+                    resp.getWriter().write(objectMapper.writeValueAsString(userResponseDTO));
                 } else {
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -54,11 +60,12 @@ public class CategoryController extends HttpServlet {
         try {
             resp.setContentType("application/json");
 
-            Category category = objectMapper.readValue(req.getInputStream(), Category.class);
-            Category createdCategory = categoryService.insert(category);
+            UserSaveDTO userSaveDTO = objectMapper.readValue(req.getInputStream(), UserSaveDTO.class);
+            User user = userSaveDTO.dtoToObject(userSaveDTO);
+            User createdUser = userService.insert(user);
 
             resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.getWriter().write(objectMapper.writeValueAsString(createdCategory));
+            resp.getWriter().write(objectMapper.writeValueAsString(new UserResponseDTO(createdUser)));
         } catch (Exception e) {
             handleExceptionResponse(e, resp);
         }
@@ -69,12 +76,13 @@ public class CategoryController extends HttpServlet {
         try {
             resp.setContentType("application/json");
 
-            Category category = objectMapper.readValue(req.getInputStream(), Category.class);
+            UserSaveDTO userSaveDTO = objectMapper.readValue(req.getInputStream(), UserSaveDTO.class);
+            User user = userSaveDTO.dtoToObject(userSaveDTO);
 
-            Category updatedCategory = categoryService.update(category);
+            User updatedUser = userService.update(user);
 
-            if (Objects.nonNull(updatedCategory)) {
-                resp.getWriter().write(objectMapper.writeValueAsString(updatedCategory));
+            if (Objects.nonNull(updatedUser)) {
+                resp.getWriter().write(objectMapper.writeValueAsString(new UserResponseDTO(updatedUser)));
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
@@ -88,7 +96,7 @@ public class CategoryController extends HttpServlet {
         try {
             Long id = Long.parseLong(req.getPathInfo().substring(1));
 
-            categoryService.delete(id);
+            userService.delete(id);
 
             resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } catch (Exception e) {

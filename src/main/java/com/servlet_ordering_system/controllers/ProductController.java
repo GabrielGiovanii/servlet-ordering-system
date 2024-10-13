@@ -1,7 +1,7 @@
 package com.servlet_ordering_system.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.servlet_ordering_system.dtos.ProductDTO;
+import com.servlet_ordering_system.models.dtos.ProductDTO;
 import com.servlet_ordering_system.models.services.ProductService;
 import com.servlet_ordering_system.models.vos.Product;
 
@@ -80,7 +80,7 @@ public class ProductController extends HttpServlet {
 
             Product updatedProduct = productService.update(product);
 
-            if (updatedProduct != null) {
+            if (Objects.nonNull(updatedProduct)) {
                 resp.getWriter().write(objectMapper.writeValueAsString(new ProductDTO(updatedProduct)));
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
