@@ -13,7 +13,7 @@ public interface CrudDAOWithUser<T> extends CrudDAO<T> {
 
     T findByStringWithUser(User user, Connection conn, String string);
 
-    T updateWithUser(User user, Connection conn, T obj);
+    T updateWithUser(Connection conn, T obj);
 
     void deleteWithUser(User user, Connection conn, Long id);
 }
