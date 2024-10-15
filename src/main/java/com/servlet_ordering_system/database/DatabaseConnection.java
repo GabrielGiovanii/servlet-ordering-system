@@ -45,6 +45,14 @@ public class DatabaseConnection {
         }
     }
 
+    public static void commit(Connection conn) {
+        try {
+            conn.commit();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void rollback(Connection conn) {
         try {
             conn.rollback();
