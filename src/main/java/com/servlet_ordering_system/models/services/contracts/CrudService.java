@@ -1,6 +1,5 @@
 package com.servlet_ordering_system.models.services.contracts;
 
-import java.sql.Connection;
 import java.util.List;
 
 public interface CrudService<T> {
@@ -9,7 +8,7 @@ public interface CrudService<T> {
 
     T findById(Long id);
 
-    T findByName(String name);
+    T findByString(String name);
 
     T insert(T obj);
 

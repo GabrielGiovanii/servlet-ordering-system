@@ -1,6 +1,7 @@
 package com.servlet_ordering_system.models.services;
 
 import com.servlet_ordering_system.database.DatabaseConnection;
+import com.servlet_ordering_system.models.daos.OrderDAO;
 import com.servlet_ordering_system.models.daos.ProductDAO;
 import com.servlet_ordering_system.models.services.contracts.CrudService;
 import com.servlet_ordering_system.models.vos.Product;
@@ -29,7 +30,7 @@ public class ProductService implements CrudService<Product> {
     }
 
     @Override
-    public Product findByName(String name) {
+    public Product findByString(String name) {
         return dao.findByString(conn, name);
     }
 

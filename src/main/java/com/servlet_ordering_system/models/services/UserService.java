@@ -30,7 +30,7 @@ public class UserService implements CrudService<User> {
     }
 
     @Override
-    public User findByName(String name) {
+    public User findByString(String name) {
         return dao.findByString(conn, name);
     }
 

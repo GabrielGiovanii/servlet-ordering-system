@@ -15,7 +15,7 @@ public class AuthService {
     }
 
     public User authenticate(String email, String password) {
-        User user = userService.findByName(email);
+        User user = userService.findByString(email);
 
         if (Objects.nonNull(user)) {
             if (!PasswordUtil.passwordIsValid(password, user.getPassword())) {
