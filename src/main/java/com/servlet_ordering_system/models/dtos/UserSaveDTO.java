@@ -12,7 +12,7 @@ public class UserSaveDTO {
     private String email;
     private String phone;
     private String password;
-    private Integer orderStatusId;
+    private Integer roleId;
 
     public UserSaveDTO() {
     }
@@ -24,7 +24,7 @@ public class UserSaveDTO {
         obj.setEmail(dto.getEmail());
         obj.setPhone(dto.getPhone());
         obj.setPassword(dto.getPassword());
-        obj.setRole(Objects.requireNonNull(Role.valueOf(dto.getOrderStatusId())));
+        obj.setRole(Objects.requireNonNull(Role.valueOf(dto.getRoleId())));
 
         return obj;
     }
@@ -69,11 +69,11 @@ public class UserSaveDTO {
         this.password = password;
     }
 
-    public Integer getOrderStatusId() {
-        return orderStatusId;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setOrderStatusId(Integer orderStatusId) {
-        this.orderStatusId = orderStatusId;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 }
