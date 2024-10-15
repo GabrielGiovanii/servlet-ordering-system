@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class UserDAO implements CrudDAO<User>, RelationalMapping<User> {
 
@@ -182,5 +183,10 @@ public class UserDAO implements CrudDAO<User>, RelationalMapping<User> {
         Role role = Role.valueOf(rs.getInt("role"));
 
         return new User(id, name, email, phone, password, role);
+    }
+
+    @Override
+    public User objectRelationalMapping(ResultSet rs, Set<User> objs) throws SQLException {
+        return null;
     }
 }

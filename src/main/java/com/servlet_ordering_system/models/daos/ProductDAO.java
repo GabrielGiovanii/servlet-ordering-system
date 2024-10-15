@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> {
 
@@ -193,5 +194,10 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
 
         Category category = new Category(categoryId, categoryName);
         return new Product(id, name, description, price, imgUrl, category);
+    }
+
+    @Override
+    public Product objectRelationalMapping(ResultSet rs, Set<Product> objs) throws SQLException {
+        return null;
     }
 }
