@@ -2,7 +2,9 @@ package com.servlet_ordering_system.models.vos;
 
 import com.servlet_ordering_system.models.vos.enums.Role;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class User {
 
@@ -13,6 +15,8 @@ public class User {
     private String password;
 
     private Role role;
+
+    private final Set<Order> orders = new HashSet<>();
 
     public User() {
     }
@@ -72,6 +76,10 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
     }
 
     @Override

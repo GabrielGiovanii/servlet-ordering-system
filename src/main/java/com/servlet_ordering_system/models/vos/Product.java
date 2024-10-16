@@ -1,6 +1,8 @@
 package com.servlet_ordering_system.models.vos;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Product {
 
@@ -11,6 +13,8 @@ public class Product {
     private String imgUrl;
 
     private Category category;
+
+    private final Set<OrderItem> orderItems = new HashSet<>();
 
     public Product() {
     }
@@ -70,6 +74,10 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
     @Override
