@@ -61,7 +61,7 @@ public class UserController extends HttpServlet {
             resp.setContentType("application/json");
 
             UserSaveDTO userSaveDTO = objectMapper.readValue(req.getInputStream(), UserSaveDTO.class);
-            User user = userSaveDTO.dtoToObject(userSaveDTO);
+            User user = userService.dtoToObject(userSaveDTO);
             User createdUser = userService.insert(user);
 
             resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -77,7 +77,7 @@ public class UserController extends HttpServlet {
             resp.setContentType("application/json");
 
             UserSaveDTO userSaveDTO = objectMapper.readValue(req.getInputStream(), UserSaveDTO.class);
-            User user = userSaveDTO.dtoToObject(userSaveDTO);
+            User user = userService.dtoToObject(userSaveDTO);
 
             User updatedUser = userService.update(user);
 

@@ -1,6 +1,5 @@
 package com.servlet_ordering_system.models.dtos;
 
-import com.servlet_ordering_system.models.vos.Category;
 import com.servlet_ordering_system.models.vos.Product;
 
 import java.util.Objects;
@@ -24,23 +23,6 @@ public class ProductDTO {
         this.price = obj.getPrice();
         this.imgUrl = obj.getImgUrl();
         this.categoryId = Objects.requireNonNull(obj.getCategory()).getId();
-    }
-
-    public Product dtoToObject(ProductDTO dto) {
-        Product obj = new Product();
-        obj.setId(dto.getId());
-        obj.setName(dto.getName());
-        obj.setDescription(dto.getDescription());
-        obj.setPrice(dto.getPrice());
-        obj.setImgUrl(dto.getImgUrl());
-
-        Category category = new Category();
-        category.setId(Objects.requireNonNull(dto).getId());
-
-        obj.setCategory(category);
-        category.getProducts().add(obj);
-
-        return obj;
     }
 
     public Long getId() {

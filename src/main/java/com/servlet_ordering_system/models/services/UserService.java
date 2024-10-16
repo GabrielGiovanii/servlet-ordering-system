@@ -2,14 +2,18 @@ package com.servlet_ordering_system.models.services;
 
 import com.servlet_ordering_system.database.DatabaseConnection;
 import com.servlet_ordering_system.models.daos.UserDAO;
+import com.servlet_ordering_system.models.dtos.UserSaveDTO;
 import com.servlet_ordering_system.models.services.contracts.CrudService;
+import com.servlet_ordering_system.models.services.contracts.DtoConverter;
 import com.servlet_ordering_system.models.vos.User;
+import com.servlet_ordering_system.models.vos.enums.Role;
 import com.servlet_ordering_system.security.PasswordUtil;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 
-public class UserService implements CrudService<User> {
+public class UserService implements CrudService<User>, DtoConverter<User> {
 
     private final UserDAO dao;
     private final Connection conn;
@@ -53,5 +57,21 @@ public class UserService implements CrudService<User> {
     @Override
     public void delete(Long id) {
         dao.delete(conn, id);
+    }
+
+    @Override
+    public User dtoToObject(Object dto) {
+        User obj = new User();
+
+        if (dto instanceof UserSaveDTO userSaveDTO) {
+            obj.setId(userSaveDTO.getId());
+            obj.setName(userSaveDTO.getName());
+            obj.setEmail(userSaveDTO.getEmail());
+            obj.setPhone(userSaveDTO.getPhone());
+            obj.setPassword(userSaveDTO.getPassword());
+            obj.setRole(Objects.requireNonNull(Role.valueOf(userSaveDTO.getRoleId())));
+        }
+
+        return obj;
     }
 }

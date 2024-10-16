@@ -1,10 +1,5 @@
 package com.servlet_ordering_system.models.dtos;
 
-import com.servlet_ordering_system.models.vos.User;
-import com.servlet_ordering_system.models.vos.enums.Role;
-
-import java.util.Objects;
-
 public class UserSaveDTO {
 
     private Long id;
@@ -15,18 +10,6 @@ public class UserSaveDTO {
     private Integer roleId;
 
     public UserSaveDTO() {
-    }
-
-    public User dtoToObject(UserSaveDTO dto) {
-        User obj = new User();
-        obj.setId(dto.getId());
-        obj.setName(dto.getName());
-        obj.setEmail(dto.getEmail());
-        obj.setPhone(dto.getPhone());
-        obj.setPassword(dto.getPassword());
-        obj.setRole(Objects.requireNonNull(Role.valueOf(dto.getRoleId())));
-
-        return obj;
     }
 
     public Long getId() {

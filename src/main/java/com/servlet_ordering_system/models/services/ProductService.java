@@ -1,15 +1,18 @@
 package com.servlet_ordering_system.models.services;
 
 import com.servlet_ordering_system.database.DatabaseConnection;
-import com.servlet_ordering_system.models.daos.OrderDAO;
 import com.servlet_ordering_system.models.daos.ProductDAO;
+import com.servlet_ordering_system.models.dtos.ProductDTO;
 import com.servlet_ordering_system.models.services.contracts.CrudService;
+import com.servlet_ordering_system.models.services.contracts.DtoConverter;
+import com.servlet_ordering_system.models.vos.Category;
 import com.servlet_ordering_system.models.vos.Product;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 
-public class ProductService implements CrudService<Product> {
+public class ProductService implements CrudService<Product>, DtoConverter<Product> {
 
     private final ProductDAO dao;
     private final Connection conn;
@@ -47,5 +50,26 @@ public class ProductService implements CrudService<Product> {
     @Override
     public void delete(Long id) {
         dao.delete(conn, id);
+    }
+
+    @Override
+    public Product dtoToObject(Object dto) {
+        Product obj = new Product();
+
+        if (dto instanceof ProductDTO productDTO) {
+            obj.setId(productDTO.getId());
+            obj.setName(productDTO.getName());
+            obj.setDescription(productDTO.getDescription());
+            obj.setPrice(productDTO.getPrice());
+            obj.setImgUrl(productDTO.getImgUrl());
+
+            Category category = new Category();
+            category.setId(Objects.requireNonNull(productDTO).getId());
+
+            obj.setCategory(category);
+            category.getProducts().add(obj);
+        }
+
+        return obj;
     }
 }

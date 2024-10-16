@@ -60,7 +60,7 @@ public class ProductController extends HttpServlet {
             resp.setContentType("application/json");
 
             ProductDTO productDTO = objectMapper.readValue(req.getInputStream(), ProductDTO.class);
-            Product product = productDTO.dtoToObject(productDTO);
+            Product product = productService.dtoToObject(productDTO);
             Product createdProduct = productService.insert(product);
 
             resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -76,7 +76,7 @@ public class ProductController extends HttpServlet {
             resp.setContentType("application/json");
 
             ProductDTO productDTO = objectMapper.readValue(req.getInputStream(), ProductDTO.class);
-            Product product = productDTO.dtoToObject(productDTO);
+            Product product = productService.dtoToObject(productDTO);
 
             Product updatedProduct = productService.update(product);
 
