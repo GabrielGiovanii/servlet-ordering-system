@@ -8,5 +8,5 @@ public interface AuthenticatedUserBinder<T> {
 
     User getAuthenticatedUser(HttpServletRequest req);
 
-    void associateUserWithOrder(HttpServletRequest req, T obj);
+    void associateUserWithEntity(HttpServletRequest req, T obj);
 }

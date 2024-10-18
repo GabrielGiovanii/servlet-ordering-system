@@ -3,7 +3,6 @@ package com.servlet_ordering_system.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.servlet_ordering_system.config.JacksonConfig;
 import com.servlet_ordering_system.controllers.contracts.AuthenticatedUserBinder;
-import com.servlet_ordering_system.controllers.exceptions.UnauthorizedException;
 import com.servlet_ordering_system.models.dtos.InsertOrderDTO;
 import com.servlet_ordering_system.models.dtos.OrderResponseDTO;
 import com.servlet_ordering_system.models.dtos.UpdateOrderDTO;
@@ -40,7 +39,7 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
 
             User authenticatedUser = getAuthenticatedUser(req);
 
-            if (Objects.isNull(action) || action.equals("/")) {
+            if (Objects.isNull(action)) {
                 List<Order> orders = null;
 
                 if (authenticatedUser.getRole().equals(Role.ADMIN)) {
@@ -83,7 +82,7 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
             InsertOrderDTO insertOrderDTO = objectMapper.readValue(req.getInputStream(), InsertOrderDTO.class);
             Order order = orderService.dtoToObject(insertOrderDTO);
 
-            associateUserWithOrder(req, order);
+            associateUserWithEntity(req, order);
 
             Order createdOrder = orderService.insert(order);
 
@@ -102,7 +101,7 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
             UpdateOrderDTO updateOrderDTO = objectMapper.readValue(req.getInputStream(), UpdateOrderDTO.class);
             Order order = orderService.dtoToObject(updateOrderDTO);
 
-            associateUserWithOrder(req, order);
+            associateUserWithEntity(req, order);
 
             Order updatedOrder = orderService.updateWithUser(order);
 
@@ -119,19 +118,18 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
     @Override
     public User getAuthenticatedUser(HttpServletRequest req) {
         HttpSession currentSession = req.getSession(false);
+
         User authenticatedUser = null;
 
-        authenticatedUser = (User) currentSession.getAttribute("authenticatedUser");
-
-        if (Objects.isNull(authenticatedUser)) {
-            throw new UnauthorizedException("Usuário é obrigatório para prosseguir!!!");
+        if (Objects.nonNull(currentSession)) {
+            authenticatedUser = (User) currentSession.getAttribute("authenticatedUser");
         }
 
         return authenticatedUser;
     }
 
     @Override
-    public void associateUserWithOrder(HttpServletRequest req, Order obj) {
+    public void associateUserWithEntity(HttpServletRequest req, Order obj) {
         User authenticatedUser = getAuthenticatedUser(req);
 
         if (Objects.nonNull(authenticatedUser)) {
