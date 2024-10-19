@@ -1,6 +1,6 @@
 package com.servlet_ordering_system.models.services;
 
-import com.servlet_ordering_system.database.DatabaseConnection;
+import com.servlet_ordering_system.config.database.DatabaseConnection;
 import com.servlet_ordering_system.models.daos.CategoryDAO;
 import com.servlet_ordering_system.models.services.contracts.CrudService;
 import com.servlet_ordering_system.models.vos.Category;

@@ -1,7 +1,7 @@
 package com.servlet_ordering_system.models.services;
 
 import com.servlet_ordering_system.controllers.exceptions.UnauthorizedException;
-import com.servlet_ordering_system.database.DatabaseConnection;
+import com.servlet_ordering_system.config.database.DatabaseConnection;
 import com.servlet_ordering_system.models.daos.OrderDAO;
 import com.servlet_ordering_system.models.dtos.InsertOrderDTO;
 import com.servlet_ordering_system.models.dtos.UpdateOrderDTO;

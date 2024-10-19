@@ -1,6 +1,6 @@
 package com.servlet_ordering_system.models.services;
 
-import com.servlet_ordering_system.database.DatabaseConnection;
+import com.servlet_ordering_system.config.database.DatabaseConnection;
 import com.servlet_ordering_system.models.daos.UserDAO;
 import com.servlet_ordering_system.models.dtos.UserSaveDTO;
 import com.servlet_ordering_system.models.services.contracts.CrudService;

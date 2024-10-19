@@ -1,4 +1,4 @@
-package com.servlet_ordering_system.database;
+package com.servlet_ordering_system.config.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
