@@ -30,6 +30,13 @@ public class OrderService implements CrudServiceWithUser<Order>, DtoConverter<Or
         this.productService = new ProductService();
     }
 
+    public OrderService(Connection conn) {
+        this.conn = conn;
+        this.dao = new OrderDAO();
+        this.orderItemService = new OrderItemService(conn);
+        this.productService = new ProductService();
+    }
+
     @Override
     public List<Order> findAll() {
         return dao.findAll(conn);
@@ -85,7 +92,10 @@ public class OrderService implements CrudServiceWithUser<Order>, DtoConverter<Or
 
     @Override
     public Order update(Order obj) {
-        return null;
+        Order orderInDatabase = dao.findById(conn, obj.getId());
+        orderInDatabase.setOrderStatus(obj.getOrderStatus());
+
+        return dao.updateWithUser(conn, orderInDatabase);
     }
 
     @Override

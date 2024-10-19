@@ -14,6 +14,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     private User client;
+    private Payment payment;
 
     private final Set<OrderItem> orderItems = new HashSet<>();
 
@@ -69,6 +70,14 @@ public class Order {
 
     public Set<OrderItem> getOrderItems() {
         return orderItems;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public double total() {

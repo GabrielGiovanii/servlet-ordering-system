@@ -25,6 +25,10 @@
     <servlet-name>OrderController</servlet-name>
     <servlet-class>com.servlet_ordering_system.controllers.OrderController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PaymentController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.PaymentController</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>CategoryController</servlet-name>
@@ -45,6 +49,10 @@
   <servlet-mapping>
     <servlet-name>OrderController</servlet-name>
     <url-pattern>/orders/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PaymentController</servlet-name>
+    <url-pattern>/payments/*</url-pattern>
   </servlet-mapping>
 
   <session-config>
