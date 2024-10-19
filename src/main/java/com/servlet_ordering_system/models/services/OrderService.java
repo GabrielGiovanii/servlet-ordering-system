@@ -75,7 +75,7 @@ public class OrderService implements CrudServiceWithUser<Order>, DtoConverter<Or
             DatabaseConnection.commit(conn);
         } catch (Exception e) {
             DatabaseConnection.rollback(conn);
-            throw new RuntimeException(e);
+            throw e;
         } finally {
             DatabaseConnection.setAutoCommit(conn, true);
         }
