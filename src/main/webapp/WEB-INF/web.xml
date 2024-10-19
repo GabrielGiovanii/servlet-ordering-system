@@ -61,7 +61,7 @@
 
   <filter>
     <filter-name>DoFilter</filter-name>
-    <filter-class>com.servlet_ordering_system.config.DoFilter</filter-class>
+    <filter-class>com.servlet_ordering_system.security.DoFilter</filter-class>
   </filter>
 
   <filter-mapping>

@@ -1,4 +1,4 @@
-package com.servlet_ordering_system.config.enums;
+package com.servlet_ordering_system.security.enums;
 
 public enum HttpVerb {
 

@@ -1,6 +1,6 @@
-package com.servlet_ordering_system.config;
+package com.servlet_ordering_system.security;
 
-import com.servlet_ordering_system.config.enums.HttpVerb;
+import com.servlet_ordering_system.security.enums.HttpVerb;
 import com.servlet_ordering_system.models.vos.User;
 import com.servlet_ordering_system.models.vos.enums.Role;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.servlet_ordering_system.config.enums.HttpVerb.*;
+import static com.servlet_ordering_system.security.enums.HttpVerb.*;
 
 public class DoFilter implements Filter {
 
