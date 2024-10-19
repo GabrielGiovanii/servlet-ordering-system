@@ -47,6 +47,7 @@ public class DoFilter implements Filter {
                         AUTH, List.of(POST)
                 ),
                 ADMIN, Map.of(
+                        AUTH, List.of(POST),
                         USERS, List.of(GET, POST, PUT, DELETE),
                         CATEGORIES, List.of(GET, POST, PUT, DELETE),
                         PRODUCTS, List.of(GET, POST, PUT, DELETE),
@@ -54,6 +55,7 @@ public class DoFilter implements Filter {
                         PAYMENTS, List.of(GET)
                 ),
                 CLIENT, Map.of(
+                        AUTH, List.of(POST),
                         USERS, List.of(GET, POST, PUT, DELETE),
                         CATEGORIES, List.of(GET),
                         PRODUCTS, List.of(GET),
@@ -71,9 +73,10 @@ public class DoFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
         String servletPath =  httpRequest.getServletPath();
-        String path = servletPath.replace("/", "");
+        String [] pathParts = servletPath.substring(1).split("/");
+        String pathServlet = pathParts[0];
 
-        if (path.equals("message.jsp") || path.equals("login.jsp")) {
+        if (pathServlet.equals("message.jsp") || pathServlet.equals("login.jsp")) {
             filterChain.doFilter(httpRequest, httpResponse);
             return;
         }
@@ -82,7 +85,7 @@ public class DoFilter implements Filter {
         
         Map<String, List<HttpVerb>> permissions = getPermissionsForUser(authenticatedUser);
 
-        handleRequestAuthorization(filterChain, httpRequest, permissions, path, httpResponse);
+        handleRequestAuthorization(filterChain, httpRequest, permissions, pathServlet, httpResponse);
     }
 
     private static void handleRequestAuthorization(FilterChain filterChain, HttpServletRequest httpRequest, Map<String, List<HttpVerb>> permissions, String path, HttpServletResponse httpResponse) throws IOException, ServletException {
