@@ -6,7 +6,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public abstract class HandlerExceptionController {
 
     public static void handleExceptionResponse(Exception e, HttpServletResponse resp) {
-        if (e instanceof NumberFormatException || e instanceof SecurityException) {
+        if (e instanceof SecurityException || e instanceof IllegalArgumentException) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else if (e.getCause() instanceof SQLIntegrityConstraintViolationException) {
             resp.setStatus(HttpServletResponse.SC_CONFLICT);

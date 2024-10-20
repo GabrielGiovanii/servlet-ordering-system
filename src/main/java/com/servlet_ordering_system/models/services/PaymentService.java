@@ -13,6 +13,7 @@ import com.servlet_ordering_system.models.vos.enums.PaymentMethod;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 
 public class PaymentService implements CrudServiceWithUser<Payment>, DtoConverter<Payment> {
 
@@ -99,6 +100,10 @@ public class PaymentService implements CrudServiceWithUser<Payment>, DtoConverte
         Payment obj = new Payment();
 
         if (dto instanceof PaymentDTO paymentDTO) {
+            if (Objects.isNull(paymentDTO.getPaymentMethodCode())) {
+                throw new IllegalArgumentException("Código do PaymentMethod é obrigatório!!!");
+            }
+
             obj.setId(paymentDTO.getId());
 
             Order order = new Order();

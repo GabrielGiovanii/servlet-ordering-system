@@ -64,12 +64,16 @@ public class UserService implements CrudService<User>, DtoConverter<User> {
         User obj = new User();
 
         if (dto instanceof UserSaveDTO userSaveDTO) {
+            if (Objects.isNull(userSaveDTO.getRoleId())) {
+                throw new IllegalArgumentException("Código da Role é obrigatório!!!");
+            }
+
             obj.setId(userSaveDTO.getId());
             obj.setName(userSaveDTO.getName());
             obj.setEmail(userSaveDTO.getEmail());
             obj.setPhone(userSaveDTO.getPhone());
             obj.setPassword(userSaveDTO.getPassword());
-            obj.setRole(Objects.requireNonNull(Role.valueOf(userSaveDTO.getRoleId())));
+            obj.setRole(Role.valueOf(userSaveDTO.getRoleId()));
         }
 
         return obj;
