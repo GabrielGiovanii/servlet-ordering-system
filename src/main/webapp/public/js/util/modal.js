@@ -45,7 +45,7 @@ function getUserModalHtml() {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" onclick="saveUser(2)">Salvar</button>
+                        <button type="button" class="btn btn-primary" id="modalSaveButton">Salvar</button>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@ function getUserModalHtml() {
     `;
 }
 
-function getUserModal() {
+function getUserModal(insertOrUpdate) {
     let registerModalElement = document.getElementById("registerModal");
 
     if (registerModalElement) {
@@ -61,6 +61,12 @@ function getUserModal() {
     }
 
     document.body.insertAdjacentHTML('beforeend', getUserModalHtml());
+
+    if (insertOrUpdate === "insert") {
+        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "saveUser(2, 'insert')");
+    } else if (insertOrUpdate === "update") {
+        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "saveUser(2, 'update')");
+    }
 
     showCustomModal();
 }
