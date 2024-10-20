@@ -1,6 +1,6 @@
 async function authenticate() {
-    let email = document.document.querySelector('.card #email').value;
-    let password = document.document.querySelector('.card #password').value;
+    let email = document.querySelector('.card #email').value;
+    let password = document.querySelector('.card #password').value;
 
     try {
         let response = await makeApiRequest('auth', 'POST', { email, password });
