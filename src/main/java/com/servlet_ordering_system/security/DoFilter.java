@@ -76,7 +76,9 @@ public class DoFilter implements Filter {
         String [] pathParts = servletPath.substring(1).split("/");
         String pathServlet = pathParts[0];
 
-        if (pathServlet.equals("message.jsp") || pathServlet.equals("login.jsp")) {
+        if (pathServlet.equals("public") ||
+                pathServlet.endsWith("login.jsp") ||
+                pathServlet.endsWith("message.jsp")) {
             filterChain.doFilter(httpRequest, httpResponse);
             return;
         }
@@ -89,7 +91,7 @@ public class DoFilter implements Filter {
     }
 
     private static void handleRequestAuthorization(FilterChain filterChain, HttpServletRequest httpRequest, Map<String, List<HttpVerb>> permissions, String path, HttpServletResponse httpResponse) throws IOException, ServletException {
-        String origin = httpRequest.getHeader("origin");
+        String origin = httpRequest.getHeader("origin-of-request");
         if (Objects.nonNull(origin) && origin.equals("api-servlet")) {
             String requestMethod = httpRequest.getMethod();
 
