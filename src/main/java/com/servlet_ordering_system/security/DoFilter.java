@@ -44,7 +44,8 @@ public class DoFilter implements Filter {
     public static Map<String, List<HttpVerb>> mapPermissionsApiServlet(String key) {
         Map<String, Map<String, List<HttpVerb>>> permissions = Map.of(
                 GUEST, Map.of(
-                        AUTH, List.of(POST)
+                        AUTH, List.of(POST),
+                        USERS, List.of(POST)
                 ),
                 ADMIN, Map.of(
                         AUTH, List.of(POST),
