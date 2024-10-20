@@ -7,8 +7,12 @@ async function authenticate() {
 
         if (response.status === 201) {
             showCustomToast("Login realizado com sucesso.", "green");
+        } else if (response.status === 400) {
+            showCustomToast("Requisição inadequada.", "orange");
         } else if (response.status === 401) {
             showCustomToast("Credenciais para efetuar o login incorretas ou usuário não existente.", "red");
+        } else if (response.status === 500) {
+            showCustomToast("Ocorreu um erro inesperado.", "red");
         }
     } catch (error) {
         showCustomToast("Ocorreu um erro inesperado.", "red");
