@@ -1,8 +1,8 @@
 package com.servlet_ordering_system.security;
 
-import com.servlet_ordering_system.security.enums.HttpVerb;
 import com.servlet_ordering_system.models.vos.User;
 import com.servlet_ordering_system.models.vos.enums.Role;
+import com.servlet_ordering_system.security.enums.HttpVerb;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +33,12 @@ public class DoFilter implements Filter {
         ADMIN = Role.ADMIN.name();
         CLIENT = Role.CLIENT.name();
 
-        AUTH = "auth";
-        USERS = "users";
-        CATEGORIES = "categories";
-        PRODUCTS = "products";
-        ORDERS = "orders";
-        PAYMENTS = "payments";
+        AUTH = "/api/auth";
+        USERS = "/api/users";
+        CATEGORIES = "/api/categories";
+        PRODUCTS = "/api/products";
+        ORDERS = "/api/orders";
+        PAYMENTS = "/api/payments";
     }
 
     public static Map<String, List<HttpVerb>> mapPermissionsApiServlet(String key) {
@@ -88,15 +88,14 @@ public class DoFilter implements Filter {
         
         Map<String, List<HttpVerb>> permissions = getPermissionsForUser(authenticatedUser);
 
-        handleRequestAuthorization(filterChain, httpRequest, permissions, pathServlet, httpResponse);
+        handleRequestAuthorization(filterChain, httpRequest, permissions, servletPath, httpResponse);
     }
 
-    private static void handleRequestAuthorization(FilterChain filterChain, HttpServletRequest httpRequest, Map<String, List<HttpVerb>> permissions, String path, HttpServletResponse httpResponse) throws IOException, ServletException {
-        String origin = httpRequest.getHeader("origin-of-request");
-        if (Objects.nonNull(origin) && origin.equals("api-servlet")) {
+    private static void handleRequestAuthorization(FilterChain filterChain, HttpServletRequest httpRequest, Map<String, List<HttpVerb>> permissions, String servletPath, HttpServletResponse httpResponse) throws IOException, ServletException {
+        if (Objects.nonNull(servletPath) && servletPath.startsWith("/api")) {
             String requestMethod = httpRequest.getMethod();
 
-            List<HttpVerb> httpVerbsAllowed = permissions.get(path.toLowerCase());
+            List<HttpVerb> httpVerbsAllowed = permissions.get(servletPath.toLowerCase());
 
             boolean permitted = false;
             if (Objects.nonNull(httpVerbsAllowed)) {

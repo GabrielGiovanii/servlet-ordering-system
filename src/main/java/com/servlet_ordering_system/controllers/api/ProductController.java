@@ -1,24 +1,26 @@
-package com.servlet_ordering_system.controllers;
+package com.servlet_ordering_system.controllers.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.servlet_ordering_system.models.services.CategoryService;
-import com.servlet_ordering_system.models.vos.Category;
+import com.servlet_ordering_system.models.dtos.ProductDTO;
+import com.servlet_ordering_system.models.services.ProductService;
+import com.servlet_ordering_system.models.vos.Product;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.servlet_ordering_system.controllers.exceptions.HandlerExceptionController.handleExceptionResponse;
 
-public class CategoryController extends HttpServlet {
+public class ProductController extends HttpServlet {
 
-    private final CategoryService categoryService;
+    private final ProductService productService;
     private final ObjectMapper objectMapper;
 
-    public CategoryController() {
-        this.categoryService = new CategoryService();
+    public ProductController() {
+        this.productService = new ProductService();
         this.objectMapper = new ObjectMapper();
     }
 
@@ -30,16 +32,19 @@ public class CategoryController extends HttpServlet {
             String action = req.getPathInfo();
 
             if (Objects.isNull(action)) {
-                List<Category> categories = categoryService.findAll();
+                List<Product> products = productService.findAll();
+                List<ProductDTO> productDTOs = products.stream()
+                        .map(ProductDTO::new)
+                        .collect(Collectors.toList());
 
-                resp.getWriter().write(objectMapper.writeValueAsString(categories));
+                resp.getWriter().write(objectMapper.writeValueAsString(productDTOs));
             } else {
                 Long id = Long.parseLong(action.substring(1));
+                Product product = productService.findById(id);
 
-                Category category = categoryService.findById(id);
-
-                if (Objects.nonNull(category)) {
-                    resp.getWriter().write(objectMapper.writeValueAsString(category));
+                if (Objects.nonNull(product)) {
+                    ProductDTO productDTO = new ProductDTO(product);
+                    resp.getWriter().write(objectMapper.writeValueAsString(productDTO));
                 } else {
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -54,11 +59,12 @@ public class CategoryController extends HttpServlet {
         try {
             resp.setContentType("application/json");
 
-            Category category = objectMapper.readValue(req.getInputStream(), Category.class);
-            Category createdCategory = categoryService.insert(category);
+            ProductDTO productDTO = objectMapper.readValue(req.getInputStream(), ProductDTO.class);
+            Product product = productService.dtoToObject(productDTO);
+            Product createdProduct = productService.insert(product);
 
             resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.getWriter().write(objectMapper.writeValueAsString(createdCategory));
+            resp.getWriter().write(objectMapper.writeValueAsString(new ProductDTO(createdProduct)));
         } catch (Exception e) {
             handleExceptionResponse(e, resp);
         }
@@ -69,12 +75,13 @@ public class CategoryController extends HttpServlet {
         try {
             resp.setContentType("application/json");
 
-            Category category = objectMapper.readValue(req.getInputStream(), Category.class);
+            ProductDTO productDTO = objectMapper.readValue(req.getInputStream(), ProductDTO.class);
+            Product product = productService.dtoToObject(productDTO);
 
-            Category updatedCategory = categoryService.update(category);
+            Product updatedProduct = productService.update(product);
 
-            if (Objects.nonNull(updatedCategory)) {
-                resp.getWriter().write(objectMapper.writeValueAsString(updatedCategory));
+            if (Objects.nonNull(updatedProduct)) {
+                resp.getWriter().write(objectMapper.writeValueAsString(new ProductDTO(updatedProduct)));
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
@@ -88,7 +95,7 @@ public class CategoryController extends HttpServlet {
         try {
             Long id = Long.parseLong(req.getPathInfo().substring(1));
 
-            categoryService.delete(id);
+            productService.delete(id);
 
             resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } catch (Exception e) {

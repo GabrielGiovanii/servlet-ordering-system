@@ -1,4 +1,4 @@
-package com.servlet_ordering_system.controllers;
+package com.servlet_ordering_system.controllers.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.servlet_ordering_system.config.JacksonConfig;
