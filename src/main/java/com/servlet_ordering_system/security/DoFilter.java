@@ -133,8 +133,13 @@ public class DoFilter implements Filter {
             boolean isServletMapped = isServletMapped(httpRequest, servletPath);
 
             if (Objects.isNull(authenticatedUser)) {
-                message = "Sessão expirada! clique em Continuar para efetuar o login.";
-                lastURIRequest = "login";
+                if (servletPath.startsWith("/api")) {
+                    httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
+                } else {
+                    message = "Sessão expirada! clique em Continuar para efetuar o login.";
+                    lastURIRequest = "login";
+                }
             } else if(!isServletMapped) {
                 message = "Recurso não encontrado! clique em Continuar para retornar ao sistema.";
                 lastURIRequest = "login";
