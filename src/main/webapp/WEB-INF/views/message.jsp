@@ -6,7 +6,7 @@
         message = (String) request.getSession().getAttribute("message");
     }
 
-    String lastURIRequest = "login.jsp";
+    String lastURIRequest = "login";
     if (request.getSession().getAttribute("lastURIRequest") != null) {
         lastURIRequest = (String) request.getSession().getAttribute("lastURIRequest");
     }

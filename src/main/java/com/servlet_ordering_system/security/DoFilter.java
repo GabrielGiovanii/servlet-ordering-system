@@ -21,47 +21,72 @@ public class DoFilter implements Filter {
     private static final String ADMIN;
     private static final String CLIENT;
 
-    private static final String AUTH;
-    private static final String USERS;
-    private static final String CATEGORIES;
-    private static final String PRODUCTS;
-    private static final String ORDERS;
-    private static final String PAYMENTS;
+    private static final String AUTH_API;
+    private static final String USERS_API;
+    private static final String CATEGORIES_API;
+    private static final String PRODUCTS_API;
+    private static final String ORDERS_API;
+    private static final String PAYMENTS_API;
+
+    private static final String LOGIN_VIEW;
+    private static final String MESSAGE_VIEW;
+    private static final String HOME_VIEW;
+    private static final String MANAGER_VIEW;
+
+    private static final String PUBLIC;
 
     static {
         GUEST = "GUEST";
         ADMIN = Role.ADMIN.name();
         CLIENT = Role.CLIENT.name();
 
-        AUTH = "/api/auth";
-        USERS = "/api/users";
-        CATEGORIES = "/api/categories";
-        PRODUCTS = "/api/products";
-        ORDERS = "/api/orders";
-        PAYMENTS = "/api/payments";
+        AUTH_API = "/api/auth";
+        USERS_API = "/api/users";
+        CATEGORIES_API = "/api/categories";
+        PRODUCTS_API = "/api/products";
+        ORDERS_API = "/api/orders";
+        PAYMENTS_API = "/api/payments";
+
+        LOGIN_VIEW = "/login";
+        MESSAGE_VIEW = "/message";
+        HOME_VIEW = "/home";
+        MANAGER_VIEW = "/manager";
+
+        PUBLIC = "/public";
     }
 
     public static Map<String, List<HttpVerb>> mapPermissionsApiServlet(String key) {
         Map<String, Map<String, List<HttpVerb>>> permissions = Map.of(
                 GUEST, Map.of(
-                        AUTH, List.of(POST),
-                        USERS, List.of(POST)
+                        AUTH_API, List.of(POST),
+                        USERS_API, List.of(POST),
+                        LOGIN_VIEW, List.of(GET),
+                        MESSAGE_VIEW, List.of(GET),
+                        PUBLIC, List.of(GET)
                 ),
                 ADMIN, Map.of(
-                        AUTH, List.of(POST),
-                        USERS, List.of(GET, POST, PUT, DELETE),
-                        CATEGORIES, List.of(GET, POST, PUT, DELETE),
-                        PRODUCTS, List.of(GET, POST, PUT, DELETE),
-                        ORDERS, List.of(GET),
-                        PAYMENTS, List.of(GET)
+                        AUTH_API, List.of(POST),
+                        USERS_API, List.of(GET, POST, PUT, DELETE),
+                        CATEGORIES_API, List.of(GET, POST, PUT, DELETE),
+                        PRODUCTS_API, List.of(GET, POST, PUT, DELETE),
+                        ORDERS_API, List.of(GET),
+                        PAYMENTS_API, List.of(GET),
+                        LOGIN_VIEW, List.of(GET),
+                        MESSAGE_VIEW, List.of(GET),
+                        MANAGER_VIEW, List.of(GET),
+                        PUBLIC, List.of(GET)
                 ),
                 CLIENT, Map.of(
-                        AUTH, List.of(POST),
-                        USERS, List.of(GET, POST, PUT, DELETE),
-                        CATEGORIES, List.of(GET),
-                        PRODUCTS, List.of(GET),
-                        ORDERS, List.of(GET, POST, PUT),
-                        PAYMENTS, List.of(GET, POST)
+                        AUTH_API, List.of(POST),
+                        USERS_API, List.of(GET, POST, PUT, DELETE),
+                        CATEGORIES_API, List.of(GET),
+                        PRODUCTS_API, List.of(GET),
+                        ORDERS_API, List.of(GET, POST, PUT),
+                        PAYMENTS_API, List.of(GET, POST),
+                        LOGIN_VIEW, List.of(GET),
+                        MESSAGE_VIEW, List.of(GET),
+                        HOME_VIEW, List.of(GET),
+                        PUBLIC, List.of(GET)
                 )
         );
 
@@ -74,47 +99,91 @@ public class DoFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
         String servletPath =  httpRequest.getServletPath();
-        String [] pathParts = servletPath.substring(1).split("/");
-        String pathServlet = pathParts[0];
-
-        if (pathServlet.equals("public") ||
-                pathServlet.endsWith("login.jsp") ||
-                pathServlet.endsWith("message.jsp")) {
-            filterChain.doFilter(httpRequest, httpResponse);
-            return;
-        }
 
         User authenticatedUser = getAuthenticatedUserFromSession(httpRequest);
-        
         Map<String, List<HttpVerb>> permissions = getPermissionsForUser(authenticatedUser);
 
-        handleRequestAuthorization(filterChain, httpRequest, permissions, servletPath, httpResponse);
+        handleRequestAuthorization(filterChain, httpRequest, authenticatedUser, permissions, servletPath, httpResponse);
     }
 
-    private static void handleRequestAuthorization(FilterChain filterChain, HttpServletRequest httpRequest, Map<String, List<HttpVerb>> permissions, String servletPath, HttpServletResponse httpResponse) throws IOException, ServletException {
-        if (Objects.nonNull(servletPath) && servletPath.startsWith("/api")) {
-            String requestMethod = httpRequest.getMethod();
+    private static void handleRequestAuthorization(FilterChain filterChain, HttpServletRequest httpRequest,
+                                                   User authenticatedUser, Map<String, List<HttpVerb>> permissions,
+                                                   String servletPath, HttpServletResponse httpResponse) throws IOException, ServletException {
+        String requestMethod = httpRequest.getMethod();
 
-            List<HttpVerb> httpVerbsAllowed = permissions.get(servletPath.toLowerCase());
+        List<HttpVerb> httpVerbsAllowed = findAllowedHttpVerbs(permissions, servletPath);
 
-            boolean permitted = false;
-            if (Objects.nonNull(httpVerbsAllowed)) {
-                for (HttpVerb verb : httpVerbsAllowed) {
-                    if (verb.name().equals(requestMethod)) {
-                        filterChain.doFilter(httpRequest, httpResponse);
+        boolean permitted = isRequestMethodPermitted(httpVerbsAllowed, requestMethod);
 
-                        permitted = true;
-                        break;
-                    }
+        if (permitted) {
+            filterChain.doFilter(httpRequest, httpResponse);
+        } else {
+            String message = null;
+            String lastURIRequest = null;
+
+            boolean isServletMapped = isServletMapped(httpRequest, servletPath);
+
+            if (Objects.isNull(authenticatedUser)) {
+                message = "Sessão expirada! clique em Continuar para efetuar o login.";
+                lastURIRequest = "login";
+            } else if(!isServletMapped) {
+                message = "Recurso não encontrado! clique em Continuar para retornar ao sistema.";
+                lastURIRequest = "login";
+            } else {
+                message = "Recurso não autorizado! clique em Continuar para retornar ao sistema.";
+
+                Role userRole = authenticatedUser.getRole();
+
+                lastURIRequest = httpRequest.getContextPath();
+                if (userRole.equals(Role.ADMIN)) {
+                    lastURIRequest += MANAGER_VIEW;
+                } else if (userRole.equals(Role.CLIENT)) {
+                    lastURIRequest += HOME_VIEW;
                 }
             }
 
-            if (!permitted) {
-                httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            }
-        } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/message.jsp");
+            httpRequest.getSession().setAttribute("message", message);
+            httpRequest.getSession().setAttribute("lastURIRequest", lastURIRequest);
+
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/message");
+
         }
+    }
+
+    private static List<HttpVerb> findAllowedHttpVerbs(Map<String, List<HttpVerb>> permissions, String servletPath) {
+        List<HttpVerb> httpVerbsAllowed = permissions.get(servletPath.toLowerCase());
+
+        if (Objects.isNull(httpVerbsAllowed)) {
+            String [] partsPath = servletPath.split("/");
+            httpVerbsAllowed = permissions.get("/" + partsPath[1].toLowerCase());
+        }
+        return httpVerbsAllowed;
+    }
+
+    private static boolean isRequestMethodPermitted(List<HttpVerb> httpVerbsAllowed, String requestMethod) {
+        boolean permitted = false;
+        if (Objects.nonNull(httpVerbsAllowed)) {
+            for (HttpVerb verb : httpVerbsAllowed) {
+                if (verb.name().equals(requestMethod)) {
+                    permitted = true;
+                    break;
+                }
+            }
+        }
+        return permitted;
+    }
+
+    private static boolean isServletMapped(HttpServletRequest httpRequest, String servletPath) {
+        ServletContext context = httpRequest.getServletContext();
+        boolean isServletMapped = false;
+
+        for (ServletRegistration servlet : context.getServletRegistrations().values()) {
+            if (servlet.getMappings().contains(servletPath)) {
+                isServletMapped = true;
+                break;
+            }
+        }
+        return isServletMapped;
     }
 
     private static Map<String, List<HttpVerb>> getPermissionsForUser(User authenticatedUser) {
