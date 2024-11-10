@@ -7,7 +7,7 @@ public class UserSaveDTO {
     private String email;
     private String phone;
     private String password;
-    private Integer roleId;
+    private Integer roleCode;
 
     public UserSaveDTO() {
     }
@@ -52,11 +52,11 @@ public class UserSaveDTO {
         this.password = password;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public Integer getRoleCode() {
+        return roleCode;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 }

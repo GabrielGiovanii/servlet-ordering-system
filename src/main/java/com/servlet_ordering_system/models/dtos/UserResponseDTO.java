@@ -10,14 +10,14 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private String phone;;
-    private Integer orderStatusId;
+    private Integer roleCode;
 
     public UserResponseDTO(User obj) {
         this.id = obj.getId();
         this.name = obj.getName();
         this.email = obj.getEmail();
         this.phone = obj.getPhone();
-        this.orderStatusId = Objects.requireNonNull(obj.getRole()).getCode();
+        this.roleCode = Objects.requireNonNull(obj.getRole()).getCode();
     }
 
     public Long getId() {
@@ -52,11 +52,11 @@ public class UserResponseDTO {
         this.phone = phone;
     }
 
-    public Integer getOrderStatusId() {
-        return orderStatusId;
+    public Integer getRoleCode() {
+        return roleCode;
     }
 
-    public void setOrderStatusId(Integer orderStatusId) {
-        this.orderStatusId = orderStatusId;
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 }
