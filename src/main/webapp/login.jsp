@@ -1,17 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <html>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Página de Login</title>
-        <link rel="stylesheet" href="public/css/bootstrap.min.css">
-        <script src="public/js/bootstrap.min.js" defer></script>
-        <script src="public/js/util/util.js" defer></script>
-        <script src="public/js/util/modal.js" defer></script>
+    <%@ include file="common/head.jsp" %>
         <script src="public/js/service/authService.js" defer></script>
-        <script src="public/js/service/requestService.js" defer></script>
-        <script src="public/js/service/userService.js" defer></script>
     </head>
 
     <body>
