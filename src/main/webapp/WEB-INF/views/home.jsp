@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
     <%@ include file="common/head.jsp" %>
-            <link rel="stylesheet" href="public/css/screen/home.css">
-            <script src="public/js/screen/home.js"></script>
+            <link rel="stylesheet" href="public/css/screens/home.css">
+            <script src="public/js/screens/home.js"></script>
         </head>
 
         <body>

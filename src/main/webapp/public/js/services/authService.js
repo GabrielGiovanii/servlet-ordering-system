@@ -4,9 +4,22 @@ async function authenticate() {
 
     try {
         let response = await makeApiRequest('auth', 'POST', { email, password });
-
         if (response.status === 201) {
-            showCustomToast("Login realizado com sucesso.", "green");
+            let userRole = (await response.json()).userRole;
+
+            var destinationPath = window.location.href;
+            destinationPath = destinationPath.replace("/login", "");
+
+            if (userRole === "ADMIN") {
+                destinationPath += "/manager";
+            } else if (userRole === "CLIENT") {
+                destinationPath += "/home";
+            } else {
+                showCustomToast("Falha ao redirecionar página após efetuar login.", "red");
+                return;
+            }
+            
+            window.location.href = destinationPath;
         } else if (response.status === 400) {
             showCustomToast("Requisição inadequada.", "orange");
         } else if (response.status === 401) {

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.Objects;
 
 import static com.servlet_ordering_system.controllers.exceptions.HandlerExceptionController.handleExceptionResponse;
@@ -43,6 +44,9 @@ public class AuthController extends HttpServlet {
                 newSession.setAttribute("authenticatedUser", authenticatedUser);
 
                 resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write(
+                        objectMapper.writeValueAsString(Collections.singletonMap("userRole", authenticatedUser.getRole()))
+                );
             }
         } catch (Exception e) {
             handleExceptionResponse(e, resp);

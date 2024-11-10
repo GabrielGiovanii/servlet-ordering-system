@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
     <%@ include file="common/head.jsp" %>
-            <script src="public/js/service/authService.js" defer></script>
+            <script src="public/js/services/authService.js" defer></script>
+            <script src="public/js/enums/role.js" defer></script>
         </head>
 
         <body>

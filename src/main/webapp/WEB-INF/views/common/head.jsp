@@ -9,8 +9,8 @@
             <link rel="stylesheet" href="public/css/bootstrap.min.css">
             <link rel="stylesheet" href="public/css/base.css">
             <script src="public/js/bootstrap.bundle.min.js" defer></script>
-            <script src="public/js/service/requestService.js" defer></script>
-            <script src="public/js/service/userService.js" defer></script>
+            <script src="public/js/services/requestService.js" defer></script>
+            <script src="public/js/services/userService.js" defer></script>
             <script src="public/js/util/modal.js" defer></script>
             <script src="public/js/util/util.js" defer></script>
             <title>Home</title>
