@@ -12,6 +12,8 @@ async function authenticate() {
         } else if (response.status === 401) {
             showCustomToast("Credenciais para efetuar o login incorretas ou usuário não existente.", "red");
         } else if (response.status === 500) {
+            showCustomToast("Ocorreu um erro inesperado no servidor.", "red");
+        } else {
             showCustomToast("Ocorreu um erro inesperado.", "red");
         }
     } catch (error) {
