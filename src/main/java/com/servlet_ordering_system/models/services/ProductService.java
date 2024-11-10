@@ -27,6 +27,10 @@ public class ProductService implements CrudService<Product>, DtoConverter<Produc
         return dao.findAll(conn);
     }
 
+    public List<Product> findAllByName(String name) {
+        return dao.findAllByName(conn, name);
+    }
+
     @Override
     public Product findById(Long id) {
         return dao.findById(conn, id);

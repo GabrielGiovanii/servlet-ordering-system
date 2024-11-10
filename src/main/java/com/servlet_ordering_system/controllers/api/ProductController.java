@@ -32,7 +32,16 @@ public class ProductController extends HttpServlet {
             String action = req.getPathInfo();
 
             if (Objects.isNull(action)) {
-                List<Product> products = productService.findAll();
+                List<Product> products;
+
+                String name = req.getParameter("name");
+
+                if (Objects.nonNull(name)) {
+                    products = productService.findAllByName(name);
+                } else {
+                    products = productService.findAll();
+                }
+
                 List<ProductDTO> productDTOs = products.stream()
                         .map(ProductDTO::new)
                         .collect(Collectors.toList());

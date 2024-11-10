@@ -38,6 +38,33 @@ public class ProductDAO implements CrudDAO<Product>, RelationalMapping<Product> 
         return products;
     }
 
+    public List<Product> findAllByName(Connection conn, String name) {
+        List<Product> products = new ArrayList<>();
+
+        String commandSql = """
+                SELECT p.id, p.name, p.description, p.price, p.img_url,\s
+                       c.id AS category_id, c.name AS category_name\s
+                FROM tb_product p\s
+                INNER JOIN tb_category c ON p.category_id = c.id\s
+                WHERE UPPER(p.name) LIKE UPPER(?)\s
+                ORDER BY p.name;
+                """;
+
+        try (PreparedStatement ps = conn.prepareStatement(commandSql)) {
+            ps.setString(1, "%" + name + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                products.add(objectRelationalMapping(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return products;
+    }
+
     @Override
     public Product findById(Connection conn, Long id) {
         Product product = null;
