@@ -1,5 +1,5 @@
 async function makeApiRequest(resource, method, body) {
-    const BASE_URL = 'http://localhost:8082/servlet-ordering-system/';
+    const BASE_URL = 'http://localhost:8082/servlet-ordering-system/api/';
     let endpoint = BASE_URL + resource;
 
     try {
