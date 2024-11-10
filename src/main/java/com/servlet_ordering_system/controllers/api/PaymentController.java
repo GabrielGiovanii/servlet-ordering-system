@@ -32,7 +32,6 @@ public class PaymentController extends HttpServlet implements AuthenticatedUserB
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
             String action = req.getPathInfo();
 
             User authenticatedUser = getAuthenticatedUser(req);
@@ -75,8 +74,6 @@ public class PaymentController extends HttpServlet implements AuthenticatedUserB
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             PaymentDTO paymentDTO = objectMapper.readValue(req.getInputStream(), PaymentDTO.class);
             Payment payment = paymentService.dtoToObject(paymentDTO);
 

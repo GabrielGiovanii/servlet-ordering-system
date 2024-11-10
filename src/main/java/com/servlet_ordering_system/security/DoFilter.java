@@ -107,6 +107,8 @@ public class DoFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
+        httpResponse.setContentType("application/json; charset=UTF-8");
+
         String servletPath =  httpRequest.getServletPath();
 
         User authenticatedUser = getAuthenticatedUserFromSession(httpRequest);

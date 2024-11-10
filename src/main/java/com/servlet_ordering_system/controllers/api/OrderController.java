@@ -34,7 +34,6 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
             String action = req.getPathInfo();
 
             User authenticatedUser = getAuthenticatedUser(req);
@@ -77,8 +76,6 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             InsertOrderDTO insertOrderDTO = objectMapper.readValue(req.getInputStream(), InsertOrderDTO.class);
             Order order = orderService.dtoToObject(insertOrderDTO);
 
@@ -96,8 +93,6 @@ public class OrderController extends HttpServlet implements AuthenticatedUserBin
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             UpdateOrderDTO updateOrderDTO = objectMapper.readValue(req.getInputStream(), UpdateOrderDTO.class);
             Order order = orderService.dtoToObject(updateOrderDTO);
 

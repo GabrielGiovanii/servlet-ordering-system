@@ -25,8 +25,6 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             String action = req.getPathInfo();
 
             if (Objects.isNull(action)) {
@@ -52,8 +50,6 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             Category category = objectMapper.readValue(req.getInputStream(), Category.class);
             Category createdCategory = categoryService.insert(category);
 
@@ -67,8 +63,6 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             Category category = objectMapper.readValue(req.getInputStream(), Category.class);
 
             Category updatedCategory = categoryService.update(category);

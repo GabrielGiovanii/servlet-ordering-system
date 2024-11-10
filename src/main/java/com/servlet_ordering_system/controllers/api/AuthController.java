@@ -27,8 +27,6 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             AuthDTO authDTO = objectMapper.readValue(req.getInputStream(), AuthDTO.class);
 
             User authenticatedUser = authService.authenticate(authDTO.getEmail(), authDTO.getPassword());

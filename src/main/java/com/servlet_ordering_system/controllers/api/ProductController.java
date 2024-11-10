@@ -27,8 +27,6 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             String action = req.getPathInfo();
 
             if (Objects.isNull(action)) {
@@ -66,8 +64,6 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             ProductDTO productDTO = objectMapper.readValue(req.getInputStream(), ProductDTO.class);
             Product product = productService.dtoToObject(productDTO);
             Product createdProduct = productService.insert(product);
@@ -82,8 +78,6 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             ProductDTO productDTO = objectMapper.readValue(req.getInputStream(), ProductDTO.class);
             Product product = productService.dtoToObject(productDTO);
 

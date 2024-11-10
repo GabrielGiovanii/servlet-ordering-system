@@ -32,7 +32,6 @@ public class UserController extends HttpServlet implements AuthenticatedUserBind
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
             String action = req.getPathInfo();
 
             User authenticatedUser = getAuthenticatedUser(req);
@@ -80,8 +79,6 @@ public class UserController extends HttpServlet implements AuthenticatedUserBind
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             UserSaveDTO userSaveDTO = objectMapper.readValue(req.getInputStream(), UserSaveDTO.class);
             User user = userService.dtoToObject(userSaveDTO);
 
@@ -105,8 +102,6 @@ public class UserController extends HttpServlet implements AuthenticatedUserBind
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.setContentType("application/json");
-
             UserSaveDTO userSaveDTO = objectMapper.readValue(req.getInputStream(), UserSaveDTO.class);
             User user = userService.dtoToObject(userSaveDTO);
 
