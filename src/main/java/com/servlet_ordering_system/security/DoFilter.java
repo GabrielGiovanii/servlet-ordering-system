@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class DoFilter implements Filter {
     private static final String MANAGER_VIEW;
 
     private static final String PUBLIC;
+    private static final String LOGOUT;
 
     static {
         GUEST = "GUEST";
@@ -53,42 +55,49 @@ public class DoFilter implements Filter {
         MANAGER_VIEW = "/manager";
 
         PUBLIC = "/public";
+        LOGOUT = "/logout";
     }
 
     public static Map<String, List<HttpVerb>> mapPermissionsApiServlet(String key) {
-        Map<String, Map<String, List<HttpVerb>>> permissions = Map.of(
-                GUEST, Map.of(
-                        AUTH_API, List.of(POST),
-                        USERS_API, List.of(POST),
-                        LOGIN_VIEW, List.of(GET),
-                        MESSAGE_VIEW, List.of(GET),
-                        PUBLIC, List.of(GET)
-                ),
-                ADMIN, Map.of(
-                        AUTH_API, List.of(POST),
-                        USERS_API, List.of(GET, POST, PUT, DELETE),
-                        CATEGORIES_API, List.of(GET, POST, PUT, DELETE),
-                        PRODUCTS_API, List.of(GET, POST, PUT, DELETE),
-                        ORDERS_API, List.of(GET),
-                        PAYMENTS_API, List.of(GET),
-                        LOGIN_VIEW, List.of(GET),
-                        MESSAGE_VIEW, List.of(GET),
-                        MANAGER_VIEW, List.of(GET),
-                        PUBLIC, List.of(GET)
-                ),
-                CLIENT, Map.of(
-                        AUTH_API, List.of(POST),
-                        USERS_API, List.of(GET, POST, PUT, DELETE),
-                        CATEGORIES_API, List.of(GET),
-                        PRODUCTS_API, List.of(GET),
-                        ORDERS_API, List.of(GET, POST, PUT),
-                        PAYMENTS_API, List.of(GET, POST),
-                        LOGIN_VIEW, List.of(GET),
-                        MESSAGE_VIEW, List.of(GET),
-                        HOME_VIEW, List.of(GET),
-                        PUBLIC, List.of(GET)
-                )
+        Map<String, List<HttpVerb>> guest = new HashMap<>();
+        guest.put(AUTH_API, List.of(POST));
+        guest.put(USERS_API, List.of(POST));
+        guest.put(LOGIN_VIEW, List.of(GET));
+        guest.put(MESSAGE_VIEW, List.of(GET));
+        guest.put(PUBLIC, List.of(GET));
+
+        Map<String, List<HttpVerb>> admin = new HashMap<>();
+        admin.put(AUTH_API, List.of(POST));
+        admin.put(USERS_API, List.of(GET, POST, PUT, DELETE));
+        admin.put(CATEGORIES_API, List.of(GET, POST, PUT, DELETE));
+        admin.put(PRODUCTS_API, List.of(GET, POST, PUT, DELETE));
+        admin.put(ORDERS_API, List.of(GET));
+        admin.put(PAYMENTS_API, List.of(GET));
+        admin.put(LOGIN_VIEW, List.of(GET));
+        admin.put(MESSAGE_VIEW, List.of(GET));
+        admin.put(MANAGER_VIEW, List.of(GET));
+        admin.put(PUBLIC, List.of(GET));
+        admin.put(LOGOUT, List.of(GET));
+
+        Map<String, List<HttpVerb>> client = new HashMap<>();
+        client.put(AUTH_API, List.of(POST));
+        client.put(USERS_API, List.of(GET, POST, PUT, DELETE));
+        client.put(CATEGORIES_API, List.of(GET));
+        client.put(PRODUCTS_API, List.of(GET));
+        client.put(ORDERS_API, List.of(GET, POST, PUT));
+        client.put(PAYMENTS_API, List.of(GET, POST));
+        client.put(LOGIN_VIEW, List.of(GET));
+        client.put(MESSAGE_VIEW, List.of(GET));
+        client.put(HOME_VIEW, List.of(GET));
+        client.put(PUBLIC, List.of(GET));
+        client.put(LOGOUT, List.of(GET));
+
+        Map<String, Map<String, List<HttpVerb>>> permissions = Map.ofEntries(
+                Map.entry(GUEST, guest),
+                Map.entry(ADMIN, admin),
+                Map.entry(CLIENT, client)
         );
+
 
         return permissions.get(key);
     }

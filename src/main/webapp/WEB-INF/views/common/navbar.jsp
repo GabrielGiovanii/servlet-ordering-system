@@ -23,7 +23,7 @@
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white">Sair</a>
+                  <a class="nav-link text-white" href="logout">Sair</a>
                 </li>
               </ul>
               <a class="navbar-text ms-auto fs-5 text-white text-decoration-none nav-link">
