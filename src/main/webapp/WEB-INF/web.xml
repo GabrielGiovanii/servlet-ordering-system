@@ -29,6 +29,10 @@
     <servlet-name>PaymentController</servlet-name>
     <servlet-class>com.servlet_ordering_system.controllers.api.PaymentController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>HomeController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.HomeController</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>CategoryController</servlet-name>
@@ -53,6 +57,10 @@
   <servlet-mapping>
     <servlet-name>PaymentController</servlet-name>
     <url-pattern>/api/payments/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HomeController</servlet-name>
+    <url-pattern>/home</url-pattern>
   </servlet-mapping>
 
   <session-config>
