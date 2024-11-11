@@ -26,3 +26,7 @@ body {
 .menu-bar {
     margin-bottom: 10px;
 }
+
+.all-texts {
+    word-wrap: break-word;
+}

@@ -10,26 +10,27 @@ function unformatPrice(formattedPrice) {
 
 //products
 const products = [
-    /*{ id: 1, name: "Produto A", description: "Descrição do Produto A", image: "images/test.png", category: "Categoria 1", price: 50.0 },
-    { id: 2, name: "Produto B", description: "Descrição do Produto B", image: "images/test3.png", category: "Categoria 2", price: 30.0 },
-    { id: 3, name: "Produto C", description: "Descrição do Produto C", image: "images/test3.png", category: "Categoria 3", price: 20.0 },*/
 ];
 
-function loadProducts() {
+async function loadProducts() {
     let productContainer = document.querySelector(".card-line");
     productContainer.innerHTML = '';
+
+    let result = await findProducts();
+    products.length = 0;
+    result.forEach(product => products.push(product));
 
     products.forEach(product => {
         let productCardHTML = `
             <div class="col-3 custom-card">
                 <div class="row">
                     <div class="col text-center">
-                        <h1>${product.name}</h1>
+                        <h1 class="fs-5 all-texts">${truncateText(product.name, 28)}</h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col text-center">
-                        <img src="${product.image}" class="card-img-top custom-img" alt="...">
+                        <img src="${product.imgUrl}" class="card-img-top custom-img" alt="...">
                     </div>
                 </div>
                 <div class="row">
@@ -39,7 +40,7 @@ function loadProducts() {
                         </p>
                     </div>
                     <div class="col-6">
-                        <p class="text-center">${product.category}</p>
+                        <p class="text-center all-texts">${truncateText(product.categoryName, 17)}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -54,7 +55,7 @@ function loadProducts() {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="card-description">${product.description}</p>
+                        <p class="card-description">${truncateText(product.description, 107)}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -70,6 +71,11 @@ function loadProducts() {
 
         productContainer.innerHTML += productCardHTML;
     });
+}
+
+function cleanProductName() {
+    let productNameInput = document.getElementById("productName");
+    productNameInput.value = "";
 }
 
 //cart

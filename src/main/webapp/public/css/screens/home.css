@@ -27,6 +27,7 @@
 
 .custom-card .card-description {
     height: 72px;
+    word-wrap: break-word;
 }
 
 .card-line {
