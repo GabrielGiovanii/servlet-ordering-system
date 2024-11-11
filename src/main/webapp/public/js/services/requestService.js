@@ -3,14 +3,18 @@ async function makeApiRequest(resource, method, body) {
     let endpoint = BASE_URL + resource;
 
     try {
-        let response = await fetch(endpoint, {
+        let requestOptions = {
             method: method,
             headers: {
-                'Content-Type': 'application/json',
-                'origin-of-request': 'api-servlet'
-            },
-            body: JSON.stringify(body)
-        });
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        };
+
+        if (body) {
+            requestOptions.body = JSON.stringify(body);
+        }
+
+        let response = await fetch(endpoint, requestOptions);
 
         return response;
     } catch (error) {
