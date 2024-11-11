@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.servlet_ordering_system.models.dtos.AuthDTO;
 import com.servlet_ordering_system.models.services.AuthService;
 import com.servlet_ordering_system.models.vos.User;
+import com.servlet_ordering_system.models.vos.enums.Role;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,14 @@ public class AuthController extends HttpServlet {
 
                 HttpSession newSession = req.getSession(true);
                 newSession.setAttribute("authenticatedUser", authenticatedUser);
+
+                String mainPage = null;
+                if (authenticatedUser.getRole().equals(Role.ADMIN)) {
+                    mainPage = "Manager";
+                } else if (authenticatedUser.getRole().equals(Role.CLIENT)) {
+                    mainPage = "Home";
+                }
+                newSession.setAttribute("mainPage", mainPage);
 
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 resp.getWriter().write(
