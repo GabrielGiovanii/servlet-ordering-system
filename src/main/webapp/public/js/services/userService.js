@@ -1,4 +1,4 @@
-async function saveUser(roleId, insertOrUpdate) {
+async function saveUser(roleCode, insertOrUpdate) {
     let id = document.querySelector('.modal-dialog #id').value;
     let name = document.querySelector('.modal-dialog #name').value;
     let email = document.querySelector('.modal-dialog #email').value;
@@ -22,7 +22,7 @@ async function saveUser(roleId, insertOrUpdate) {
         email: email,
         phone: phone,
         password: password,
-        roleId: roleId
+        roleCode: roleCode
     };
 
     if (insertOrUpdate === 'insert') {

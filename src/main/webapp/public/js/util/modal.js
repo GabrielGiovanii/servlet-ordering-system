@@ -39,7 +39,7 @@ function getUserModalHtml() {
                                     placeholder="Confirme sua senha" required maxlength="100">
                             </div>
                             <div class="mb-3">
-                                <input id="roleId" name="roleId" type="number" style="display: none;">
+                                <input id="roleCode" name="roleCode" type="number" style="display: none;">
                             </div>
                         </form>
                     </div>
