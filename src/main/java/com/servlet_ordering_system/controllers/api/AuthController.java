@@ -42,14 +42,6 @@ public class AuthController extends HttpServlet {
                 HttpSession newSession = req.getSession(true);
                 newSession.setAttribute("authenticatedUser", authenticatedUser);
 
-                String mainPage = null;
-                if (authenticatedUser.getRole().equals(Role.ADMIN)) {
-                    mainPage = "Manager";
-                } else if (authenticatedUser.getRole().equals(Role.CLIENT)) {
-                    mainPage = "Home";
-                }
-                newSession.setAttribute("mainPage", mainPage);
-
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 resp.getWriter().write(
                         objectMapper.writeValueAsString(Collections.singletonMap("userRole", authenticatedUser.getRole()))
