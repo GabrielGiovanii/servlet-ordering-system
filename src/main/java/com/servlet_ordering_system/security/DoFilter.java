@@ -170,6 +170,10 @@ public class DoFilter implements Filter {
         List<HttpVerb> httpVerbsAllowed = permissions.get(servletPath.toLowerCase());
 
         if (Objects.isNull(httpVerbsAllowed)) {
+            if (servletPath.equals("/")) {
+                return null;
+            }
+
             String [] partsPath = servletPath.split("/");
             httpVerbsAllowed = permissions.get("/" + partsPath[1].toLowerCase());
         }
