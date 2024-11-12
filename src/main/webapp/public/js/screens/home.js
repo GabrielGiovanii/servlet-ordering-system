@@ -40,7 +40,7 @@ async function loadProducts() {
                         </p>
                     </div>
                     <div class="col-6">
-                        <p class="text-center all-texts">${truncateText(product.categoryName, 17)}</p>
+                        <p class="text-center all-texts">${truncateText(product.categoryName, 15)}</p>
                     </div>
                 </div>
                 <div class="row">
