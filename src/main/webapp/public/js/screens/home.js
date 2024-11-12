@@ -88,7 +88,7 @@ function addToCart(productId, button) {
     let quantity = parseInt(quantityInput.value);
 
     if (quantity === 0) {
-        alert("Quantidade não pode ser 0");
+        showCustomToast("Quantidade do produto a comprar precisa ser maior que 0.", "orange");
         return;
     }
 
@@ -98,7 +98,7 @@ function addToCart(productId, button) {
     if (!cartItem) {
         addProductToCartTable(product, quantity);
     } else {
-        alert("Produto já existente no carrinho, atualize o carrinho para mudanças.");
+        showCustomToast("Produto já está no carrinho, caso queria modificar a quantidade, atualize o carrinho.", "orange");
     }
 }
 
