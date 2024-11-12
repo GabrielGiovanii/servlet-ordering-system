@@ -8,42 +8,28 @@ function findCategories() {
 
 async function findAllCategories() {
     try {
-        let response = await makeApiRequest('categories', 'GET', null);
+        let response = await makeApiRequest('categories', 'GET', null, true);
         
-        if (response.status === 200) {
+        if (response) {
             let body = await response.json();
 
             return body;
-        } else if (response.status === 400) {
-            showCustomToast("Requisição inadequada.", "orange");
-        } else if (response.status === 500) {
-            showCustomToast("Ocorreu um erro inesperado no servidor.", "red");
-        } else {
-            showCustomToast("Ocorreu um erro inesperado.", "red");
         }
     } catch (error) {
-        showCustomToast("Ocorreu um erro inesperado.", "red");
+        showCustomToast("Erro inesperado na consulta de categorias.", "red");
     }
 }
 
 async function findCategoryById(id) {
     try {
-        let response = await makeApiRequest('Categories/' + id, 'GET', null);
+        let response = await makeApiRequest('Categories/' + id, 'GET', null, false);
         
-        if (response.status === 200) {
-            showCustomToast("Sucesso ao buscar categoria pelo id.", "green");
-
+        if (response) {
             let body = await response.json();
 
             return body;
-        } else if (response.status === 400) {
-            showCustomToast("Requisição inadequada.", "orange");
-        } else if (response.status === 500) {
-            showCustomToast("Ocorreu um erro inesperado no servidor.", "red");
-        } else {
-            showCustomToast("Ocorreu um erro inesperado.", "red");
         }
     } catch (error) {
-        showCustomToast("Ocorreu um erro inesperado.", "red");
-    }
+        showCustomToast("Erro inesperado na consulta de categoria pelo id.", "red");
+     }
 }

@@ -29,40 +29,28 @@ async function findProducts() {
 
 async function findAllProductsByName(name) {
     try {
-        let response = await makeApiRequest('products?name=' + name, 'GET', null);
+        let response = await makeApiRequest('products?name=' + name, 'GET', null, true);
         
-        if (response.status === 200) {
-            showCustomToast("Sucesso ao buscar produtos pelo nome.", "green");
+        if (response) {
+            let body = await response.json();
 
-            return await response.json();
-        } else if (response.status === 400) {
-            showCustomToast("Requisição inadequada.", "orange");
-        } else if (response.status === 500) {
-            showCustomToast("Ocorreu um erro inesperado no servidor.", "red");
-        } else {
-            showCustomToast("Ocorreu um erro inesperado.", "red");
+            return body;
         }
     } catch (error) {
-        showCustomToast("Ocorreu um erro inesperado.", "red");
+        showCustomToast("Erro inesperado na consulta de produtos pelo nome.", "red");
     }
 }
 
 async function findAllProducts() {
     try {
-        let response = await makeApiRequest('products', 'GET', null);
+        let response = await makeApiRequest('products', 'GET', null, true);
         
-        if (response.status === 200) {
-            showCustomToast("Sucesso ao buscar todos produtos.", "green");
+        if (response) {
+            let body = await response.json();
 
-            return await response.json();
-        } else if (response.status === 400) {
-            showCustomToast("Requisição inadequada.", "orange");
-        } else if (response.status === 500) {
-            showCustomToast("Ocorreu um erro inesperado no servidor.", "red");
-        } else {
-            showCustomToast("Ocorreu um erro inesperado.", "red");
+            return body;
         }
     } catch (error) {
-        showCustomToast("Ocorreu um erro inesperado.", "red");
+        showCustomToast("Erro inesperado na consulta de produtos.", "red");
     }
 }

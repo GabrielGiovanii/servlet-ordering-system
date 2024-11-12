@@ -37,42 +37,28 @@ async function saveUser(roleCode, insertOrUpdate) {
 
 async function insertUser(body) {
     try {
-        let response = await makeApiRequest('users', 'POST', body);
+        let response = await makeApiRequest('users', 'POST', body, true);
 
-        if (response.status === 201) {
-            showCustomToast("Usuário inserido com sucesso.", "green");
-        } else if (response.status === 400) {
-            showCustomToast("Requisição inadequada.", "orange");
-        } else if (response.status === 401) {
-            showCustomToast("Requisição não autorizada.", "red");
-        } else if (response.status === 409) {
-            showCustomToast("Conflito de dados, requisição inadequada.", "red");
-        } else if (response.status === 500) {
-            showCustomToast("Ocorreu um erro inesperado.", "red");
+        if (response) {
+            let body = await response.json();
+
+            return body;
         }
-
-        return await response;
     } catch (error) {
-        showCustomToast("Ocorreu um erro inesperado.", "red");
+        showCustomToast("Erro inesperado na inserção de usuário.", "red");
     }
 }
 
 async function updateUser(body) {
     try {
-        let response = await makeApiRequest('users', 'PUT', body);
+        let response = await makeApiRequest('users', 'PUT', body, true);
 
-        if (response.status === 200) {
-            showCustomToast("Usuário atualizado com sucesso.", "green");
-        } else if (response.status === 400) {
-            showCustomToast("Requisição inadequada.", "orange");
-        } else if (response.status === 401) {
-            showCustomToast("Requisição não autorizada.", "red");
-        } else if (response.status === 409) {
-            showCustomToast("Conflito de dados, requisição inadequada.", "red");
-        } else if (response.status === 500) {
-            showCustomToast("Ocorreu um erro inesperado.", "red");
+        if (response) {
+            let body = await response.json();
+
+            return body;
         }
     } catch (error) {
-        showCustomToast("Ocorreu um erro inesperado.", "red");
+        showCustomToast("Erro inesperado na atualização de usuário.", "red");
     }
 }
