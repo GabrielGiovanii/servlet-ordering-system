@@ -42,6 +42,10 @@
     <servlet-class>com.servlet_ordering_system.controllers.MessageController</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ManagerController</servlet-name>
+    <servlet-class>com.servlet_ordering_system.controllers.ManagerController</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>HomeController</servlet-name>
     <servlet-class>com.servlet_ordering_system.controllers.HomeController</servlet-class>
   </servlet>
@@ -85,6 +89,10 @@
   <servlet-mapping>
     <servlet-name>HomeController</servlet-name>
     <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ManagerController</servlet-name>
+    <url-pattern>/manager</url-pattern>
   </servlet-mapping>
 
   <session-config>
