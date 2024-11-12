@@ -109,7 +109,7 @@ function addProductToCartTable(product, quantity) {
 
     let cartLine = `
         <tr>
-            <td>${product.name}</td>
+            <td>${truncateText(product.name, 28)}</td>
             <td>
                 <input type="number" class="form-control" value="${quantity}" min="1" onchange="updateQuantity(${product.id}, this)">
             </td>
