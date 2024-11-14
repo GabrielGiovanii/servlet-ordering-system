@@ -110,3 +110,48 @@ function getConfirmationModal(message, action) {
 
     showCustomConfirmationModal();
 }
+
+function getPaymentModalHtml(orderId) {
+    let userModalHtml =  `
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Pagar Pedido de id: ${orderId}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="modalForm">
+                            <div class="mb-3">
+                            <select class="form-select" id="paymentMethodSelect" aria-label="Método de Pagamento">
+                                <option selected>Selecione um método de pagamento</option>
+                                <option value="1">PIX</option>
+                                <option value="2">Cartão de Crédito</option>
+                                <option value="3">Cartão de Débito</option>
+                            </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="modalSaveButton" onclick="makePayment(${orderId})">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return userModalHtml;
+}
+
+function getPaymentModal(orderId) {
+    let registerModalElement = document.getElementById("registerModal");
+
+    if (registerModalElement) {
+        registerModalElement.remove();
+    }
+
+    document.body.insertAdjacentHTML('beforeend', getPaymentModalHtml(orderId));
+
+    showCustomEntityFormModal();
+}

@@ -5,6 +5,9 @@
             <script src="public/js/screens/home.js" defer></script>
             <script src="public/js/services/productService.js" defer></script>
             <script src="public/js/services/categoryService.js" defer></script>
+            <script src="public/js/services/orderService.js" defer></script>
+            <script src="public/js/services/paymentService.js" defer></script>
+            <script src="public/js/enums/orderStatus.js" defer></script>
         </head>
 
         <body>
@@ -52,7 +55,7 @@
                         <tr>
                           <td colspan="3" class="text-end fw-bold">Total</td>
                           <td id="totalAmount">R$ 0,00</td>
-                          <td><button class="btn btn-success" onclick="finalizeOrder()">Finalizar Pedido</button></td>
+                          <td><button class="btn btn-success btn-sm" onclick="finalizeOrder()">Finalizar Pedido</button></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -64,8 +67,13 @@
                   <div class="row window-title">
                     <h1>Pedidos</h1>
                   </div>
+                  <div class="row menu-bar">
+                    <div class="col-1">
+                      <button class="btn btn-primary" onclick="loadOrders()">Pesquisar</button>
+                    </div>
+                  </div>
                   <div class="row">
-                    <table class="table table-striped" id="cartTable">
+                    <table class="table table-striped" id="orderTable">
                       <thead>
                         <tr>
                           <th>Id</th>

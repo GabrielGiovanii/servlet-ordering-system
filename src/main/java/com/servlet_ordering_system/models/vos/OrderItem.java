@@ -51,7 +51,7 @@ public class OrderItem {
         this.price = price;
     }
 
-    public double subTotal() {
+    public double subtotal() {
         return price * quantity;
     }
 

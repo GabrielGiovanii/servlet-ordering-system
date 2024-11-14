@@ -10,7 +10,7 @@ public class OrderItemResponseDTO {
     private String productName;
     private Integer quantity;
     private Double price;
-    private Double subTotal;
+    private Double subtotal;
 
     public OrderItemResponseDTO() {
     }
@@ -20,7 +20,7 @@ public class OrderItemResponseDTO {
         this.productName = Objects.requireNonNull(obj.getProduct()).getName();
         this.quantity = obj.getQuantity();
         this.price = obj.getPrice();
-        this.subTotal = obj.subTotal();
+        this.subtotal = obj.subtotal();
     }
 
     public Long getProductId() {
@@ -55,11 +55,11 @@ public class OrderItemResponseDTO {
         this.price = price;
     }
 
-    public Double getSubTotal() {
-        return subTotal;
+    public Double getSubtotal() {
+        return subtotal;
     }
 
-    public void setSubTotal(Double subTotal) {
-        this.subTotal = subTotal;
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
     }
 }

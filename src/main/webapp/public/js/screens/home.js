@@ -1,13 +1,3 @@
-const priceFormat = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-
-function formatPrice(price) {
-    return priceFormat.format(price);
-}
-
-function unformatPrice(formattedPrice) {
-    return parseFloat(formattedPrice.replace(/[\R$\s.]/g, '').replace(',', '.'));
-}
-
 //products
 const products = [
 ];
@@ -130,7 +120,8 @@ function addProductToCartTable(product, quantity) {
 function updateCartTotal(subtotal) {
     let totalTd = document.getElementById("totalAmount");
 
-    let total = unformatPrice(totalTd.textContent);
+    let totalContent = unformatPrice(totalTd.textContent);
+    let total = isNaN(totalContent) ? 0 : totalContent;
     total += subtotal;
 
     totalTd.innerText = `${formatPrice(total)}`;
@@ -170,15 +161,129 @@ function removeFromCart(productId, button) {
     }
 }
 
-function finalizeOrder() {
+//orders
+const orders = [];
+
+function addOrderToOrderTable(responseBody) {
+    let orderTableContainer = document.querySelector("#orderTable tbody");
+
+    let buttonInsertedInOrder = false;
+
+    responseBody.orderItems.forEach(item => {
+        let statusName = Object.values(OrderStatus).find(status => status.code === responseBody.orderStatusCode)?.name;
+        let orderStatusCode = responseBody.orderStatusCode;
+
+        let actionButtons;
+        if (orderStatusCode === 1) {
+            let orderId = responseBody.id;
+
+            actionButtons =  `
+                <button class="btn btn-success btn-sm" onclick="getPaymentModal(${orderId})">Pagar P.</button>
+                <button class="btn btn-danger btn-sm" onclick="getConfirmationModal('Tem certeza que deseja cancelar o pedido com id ${orderId}?', 'cancelOrder(${orderId})')">Cancelar P.</button>
+            `;
+        }
+
+        let orderLine = `
+        <tr>
+            <td id="orderId">${responseBody.id}</td>
+            <td>${formatDate(responseBody.moment)}</td>
+            <td id="orderStatusName">${statusName}</td>
+            <td>${item.productName}</td>
+            <td>${formatPrice(item.price)}</td>
+            <td>${item.quantity}</td>
+            <td>${formatPrice(item.subtotal)}</td>
+            <td>${formatPrice(responseBody.total)}</td>
+            <td id="orderActions">
+                ${actionButtons && !buttonInsertedInOrder ? actionButtons : ""}
+            </td>
+        </tr>
+    `;
+
+    buttonInsertedInOrder = true;
+
+    orderTableContainer.innerHTML += orderLine;
+    });
+}
+
+async function loadOrders() {
+    let orderTableContainer = document.querySelector("#orderTable tbody");
+    orderTableContainer.innerHTML = '';
+
+    let result = await findAllOrders();
+
+    orders.length = 0;
+
+    result.forEach(order => orders.push(order));
+
+    orders.forEach(order => {
+        addOrderToOrderTable(order);
+    });
+}
+
+async function finalizeOrder() {
     if (cart.length === 0) {
-        alert("Carrinho vazio. Adicione itens antes de finalizar o pedido.");
+        showCustomToast("Carrinho vazio. Adicione itens antes de finalizar o pedido.", "orange");
         return;
     }
 
-    /*let cartTableContainer = document.querySelector("#cartTable tbody");
-    cartTableContainer.innerHTML = "";*/
+    let orderBody = {
+        orderItems: cart.map(item => ({
+            productId: item.id,
+            quantity: item.quantity
+        }))
+    };
+
+    let responseBody = await insertOrder(orderBody);
+
+    orders.push(responseBody);
+
+    addOrderToOrderTable(responseBody);
+
+    cart.length = 0;
+    document.querySelector("#cartTable tbody").innerHTML = "";
+    document.getElementById("totalAmount").innerHTML = "";
 }
 
-//orders
-const orders = [];
+async function cancelOrder(id) {
+    let responseBody = await updateOrder(id);
+
+    let orderTableContainer = document.querySelector("#orderTable tbody");
+
+    let statusName = Object.values(OrderStatus).find(status => status.code === responseBody.orderStatusCode)?.name;
+
+    orderTableContainer.querySelectorAll("tr").forEach(row => {
+        let orderIdElement = row.querySelector("#orderId");
+        
+        if (parseInt(orderIdElement.textContent) === responseBody.id) {
+            let orderStatusNameElement = row.querySelector("#orderStatusName");
+            let orderActionsElement = row.querySelector("#orderActions");
+            
+            orderStatusNameElement.innerHTML = statusName;
+            orderActionsElement.innerHTML = "";
+        }
+    });
+}
+
+async function makePayment(orderId) {
+    let paymentMethodSelectElement = document.getElementById("paymentMethodSelect");
+
+    let responseBody = await insertPayment(orderId, paymentMethodSelectElement.value);
+
+    let orderTableContainer = document.querySelector("#orderTable tbody");
+
+    let statusName = Object.values(OrderStatus).find(status => status.code === 2)?.name;
+
+    orderTableContainer.querySelectorAll("tr").forEach(row => {
+        let orderIdElement = row.querySelector("#orderId");
+
+        if (parseInt(orderIdElement.textContent) === responseBody.orderId) {
+            let orderStatusNameElement = row.querySelector("#orderStatusName");
+            let orderActionsElement = row.querySelector("#orderActions");
+
+            orderStatusNameElement.innerHTML = statusName;
+            orderActionsElement.innerHTML = "";
+
+            document.querySelector('#registerModal .btn-secondary').click();
+        }
+    });
+}

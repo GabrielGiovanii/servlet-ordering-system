@@ -82,7 +82,7 @@ public class Order {
 
     public double total() {
         return orderItems.stream()
-                .mapToDouble(OrderItem::subTotal)
+                .mapToDouble(OrderItem::subtotal)
                 .sum();
     }
 
