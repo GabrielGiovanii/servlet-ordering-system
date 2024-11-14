@@ -22,7 +22,7 @@ async function findAllCategories() {
 
 async function findCategoryById(id) {
     try {
-        let response = await makeApiRequest('Categories/' + id, 'GET', null, false);
+        let response = await makeApiRequest('categories/' + id, 'GET', null, false);
         
         if (response) {
             let body = await response.json();

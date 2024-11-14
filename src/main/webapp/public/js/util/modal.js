@@ -1,10 +1,24 @@
-function getUserModalHtml() {
-    return `
+function getUserModalHtml(insertOrUpdate) {
+    let modalTitle;
+    let passwordPlaceHolder;
+    let confirmPasswordPlaceHolder;
+
+    if (insertOrUpdate === "insert") {
+        modalTitle = "Registrar Usuário";
+        passwordPlaceHolder = "Insira sua senha";
+        confirmPasswordPlaceHolder = "Confirme sua senha";
+    } else if (insertOrUpdate === "update") {
+        modalTitle = "Alterar Usuário";
+        passwordPlaceHolder = "Insira sua nova senha";
+        confirmPasswordPlaceHolder = "Confirme sua nova senha";
+    }
+
+    let userModalHtml =  `
         <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle">Registrar Usuário</h5>
+                        <h5 class="modal-title" id="modalTitle">${modalTitle}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -31,12 +45,12 @@ function getUserModalHtml() {
                             <div class="mb-3">
                                 <label class="form-label" for="password">Senha*</label>
                                 <input class="form-control" id="password" name="password" type="password"
-                                    placeholder="Insira sua senha" required maxlength="100">
+                                    placeholder="${passwordPlaceHolder}" required maxlength="100">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="confirmPassword">Confirmação de Senha*</label>
                                 <input class="form-control" id="confirmPassword" name="confirmPassword" type="password"
-                                    placeholder="Confirme sua senha" required maxlength="100">
+                                    placeholder="${confirmPasswordPlaceHolder}" required maxlength="100">
                             </div>
                             <div class="mb-3">
                                 <input id="roleCode" name="roleCode" type="number" style="display: none;">
@@ -51,6 +65,19 @@ function getUserModalHtml() {
             </div>
         </div>
     `;
+
+    return userModalHtml;
+}
+
+async function setUserDataInModal() {
+    let userId = document.getElementById("authenticatedUserId").value;
+
+    let body = await findUserById(userId);
+
+    document.querySelector('.modal-dialog #id').value = body.id;
+    document.querySelector('.modal-dialog #name').value = body.name;
+    document.querySelector('.modal-dialog #email').value = body.email;
+    document.querySelector('.modal-dialog #phone').value = body.phone;
 }
 
 function getUserModal(insertOrUpdate) {
@@ -60,13 +87,26 @@ function getUserModal(insertOrUpdate) {
         registerModalElement.remove();
     }
 
-    document.body.insertAdjacentHTML('beforeend', getUserModalHtml());
+    document.body.insertAdjacentHTML('beforeend', getUserModalHtml(insertOrUpdate));
 
     if (insertOrUpdate === "insert") {
         document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "saveUser(2, 'insert')");
     } else if (insertOrUpdate === "update") {
         document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "saveUser(2, 'update')");
+        setUserDataInModal();
     }
 
-    showCustomModal();
+    showCustomEntityFormModal();
+}
+
+function getConfirmationModal(message, action) {
+    let registerModalElement = document.getElementById("confirmationModal");
+
+    if (registerModalElement) {
+        registerModalElement.remove();
+    }
+
+    document.body.insertAdjacentHTML('beforeend', getConfirmationModalHTML(message, action));
+
+    showCustomConfirmationModal();
 }

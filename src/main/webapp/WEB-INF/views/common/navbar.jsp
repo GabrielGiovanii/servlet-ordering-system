@@ -30,8 +30,8 @@
                     Usuário
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item">Alterar</a></li>
-                    <li><a class="dropdown-item">Excluir</a></li>
+                    <li><a class="dropdown-item" onclick="getUserModal('update')">Alterar</a></li>
+                    <li><a class="dropdown-item" onclick="getConfirmationModal('Tem certeza que deseja apagar o seu usuário?', 'deleteUserById(<%= user.getId() %>)')">Excluir</a></li>
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -41,6 +41,7 @@
               <a class="navbar-text ms-auto fs-5 text-white text-decoration-none nav-link">
                 Olá <%= user.getName() %>
               </a>
+              <input type="hidden" id="authenticatedUserId" value="<%= user.getId() %>">
             </div>
         </div>
     </nav>
