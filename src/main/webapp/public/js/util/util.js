@@ -89,3 +89,26 @@ function truncateText(text, maxLength) {
     
     return text.substring(0, maxLength - 3) + '...';
 }
+
+function formatDate(dataText) {
+    let date = new Date(dataText);
+
+    let day = String(date.getDate()).padStart(2, '0');
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let year = date.getFullYear();
+    let hours = String(date.getHours()).padStart(2, '0');
+    let minutes = String(date.getMinutes()).padStart(2, '0');
+    let seconds = String(date.getSeconds()).padStart(2, '0'); 
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+const priceFormat = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+function formatPrice(price) {
+    return priceFormat.format(price);
+}
+
+function unformatPrice(formattedPrice) {
+    return parseFloat(formattedPrice.replace(/[\R$\s.]/g, '').replace(',', '.'));
+}
