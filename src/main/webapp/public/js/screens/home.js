@@ -63,7 +63,7 @@ async function loadProducts() {
     });
 }
 
-function cleanProductName() {
+function cleaningProductNameAndId() {
     let productNameInput = document.getElementById("productName");
     productNameInput.value = "";
 }

@@ -22,7 +22,7 @@
                       <input type="text" class="form-control" id="productName" placeholder="Nome do produto" maxlength="255">
                     </div>
                     <div class="col-1">
-                      <button class="btn btn-secondary" onclick="cleanProductName()">Limpar</button>
+                      <button class="btn btn-secondary" onclick="cleaningProductNameAndId()">Limpar</button>
                     </div>
                   </div>
                   <div class="row justify-content-start card-line">
