@@ -99,14 +99,14 @@ function addProductToCartTable(product, quantity) {
 
     let cartLine = `
         <tr>
-            <td>${truncateText(product.name, 28)}</td>
-            <td>
+            <td >${truncateText(product.name, 28)}</td>
+            <td class="text-center">
                 <input type="number" class="form-control" value="${quantity}" min="1" onchange="updateQuantity(${product.id}, this)">
             </td>
             <td>${formatPrice(product.price)}</td>
             <td id="subtotalCell">${formatPrice(subtotal)}</td>
-            <td>
-            <button class="btn btn-danger btn-sm" onclick="removeFromCart(${product.id}, this)">Remover</button>
+            <td class="text-center">
+                <button class="btn btn-danger btn-sm" onclick="removeFromCart(${product.id}, this)">Remover</button>
             </td>
         </tr>
     `;
@@ -185,15 +185,15 @@ function addOrderToOrderTable(responseBody) {
 
         let orderLine = `
         <tr>
-            <td id="orderId">${responseBody.id}</td>
-            <td>${formatDate(responseBody.moment)}</td>
-            <td id="orderStatusName">${statusName}</td>
+            <td id="orderId" class="text-center">${responseBody.id}</td>
+            <td class="text-center">${formatDate(responseBody.moment)}</td>
+            <td id="orderStatusName" class="text-center">${statusName}</td>
             <td>${item.productName}</td>
             <td>${formatPrice(item.price)}</td>
-            <td>${item.quantity}</td>
+            <td class="text-center">${item.quantity}</td>
             <td>${formatPrice(item.subtotal)}</td>
             <td>${formatPrice(responseBody.total)}</td>
-            <td id="orderActions">
+            <td id="orderActions" class="text-center">
                 ${actionButtons && !buttonInsertedInOrder ? actionButtons : ""}
             </td>
         </tr>

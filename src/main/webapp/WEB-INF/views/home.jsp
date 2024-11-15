@@ -43,11 +43,11 @@
                     <table class="table table-striped" id="cartTable">
                       <thead>
                         <tr>
-                          <th>Produto</th>
-                          <th>Quantidade</th>
-                          <th>Preço Unitário</th>
-                          <th>Subtotal</th>
-                          <th>Ações</th>
+                          <th class="text-center">Produto</th>
+                          <th class="text-center">Quantidade</th>
+                          <th class="text-center">Preço Unitário</th>
+                          <th class="text-center">Subtotal</th>
+                          <th class="text-center">Ações</th>
                         </tr>
                       </thead>
                       <tbody></tbody>
@@ -55,7 +55,7 @@
                         <tr>
                           <td colspan="3" class="text-end fw-bold">Total</td>
                           <td id="totalAmount">R$ 0,00</td>
-                          <td><button class="btn btn-success btn-sm" onclick="finalizeOrder()">Finalizar Pedido</button></td>
+                          <td class="text-center"><button class="btn btn-success btn-sm" onclick="finalizeOrder()">Finalizar Pedido</button></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -76,15 +76,15 @@
                     <table class="table table-striped" id="orderTable">
                       <thead>
                         <tr>
-                          <th>Id</th>
-                          <th>Data</th>
-                          <th>Status</th>
-                          <th>Produto</th>
-                          <th>Preço</th>
-                          <th>Quantidade</th>
-                          <th>Subtotal</th>
-                          <th>Total</th>
-                          <th>Ações</th>
+                          <th class="text-center">Id</th>
+                          <th class="text-center">Data</th>
+                          <th class="text-center">Status</th>
+                          <th class="text-center">Produto</th>
+                          <th class="text-center">Preço</th>
+                          <th class="text-center">Quantidade</th>
+                          <th class="text-center">Subtotal</th>
+                          <th class="text-center">Total</th>
+                          <th class="text-center">Ações</th>
                         </tr>
                       </thead>
                       <tbody></tbody>
