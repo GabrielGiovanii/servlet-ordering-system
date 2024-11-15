@@ -25,7 +25,7 @@
                       <input type="number" class="form-control" id="productId" placeholder="Id do produto" min="1">
                     </div>
                     <div class="col-1">
-                      <button class="btn btn-secondary" onclick="cleaningCategoryNameAndId()">Limpar</button>
+                      <button class="btn btn-secondary" onclick="cleanProductNameAndId()">Limpar</button>
                     </div>
                   </div>
                   <div class="row justify-content-start card-line">

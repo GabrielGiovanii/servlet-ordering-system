@@ -79,7 +79,7 @@ function updateProduct() {
 function deleteProduct() {
 }
 
-function cleaningProductNameAndId() {
+function cleanProductNameAndId() {
     document.getElementById("productName").value = "";
     document.getElementById("productId").value = null;
 }
