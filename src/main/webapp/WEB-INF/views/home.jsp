@@ -3,11 +3,6 @@
     <%@ include file="common/head.jsp" %>
             <link rel="stylesheet" href="public/css/screens/home.css">
             <script src="public/js/screens/home.js" defer></script>
-            <script src="public/js/services/productService.js" defer></script>
-            <script src="public/js/services/categoryService.js" defer></script>
-            <script src="public/js/services/orderService.js" defer></script>
-            <script src="public/js/services/paymentService.js" defer></script>
-            <script src="public/js/enums/orderStatus.js" defer></script>
         </head>
 
         <body>

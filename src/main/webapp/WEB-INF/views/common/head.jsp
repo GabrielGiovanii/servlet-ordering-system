@@ -13,4 +13,9 @@
             <script src="public/js/services/userService.js" defer></script>
             <script src="public/js/util/modal.js" defer></script>
             <script src="public/js/util/util.js" defer></script>
+            <script src="public/js/services/productService.js" defer></script>
+            <script src="public/js/services/categoryService.js" defer></script>
+            <script src="public/js/services/orderService.js" defer></script>
+            <script src="public/js/services/paymentService.js" defer></script>
+            <script src="public/js/enums/orderStatus.js" defer></script>
             <title>Home</title>
