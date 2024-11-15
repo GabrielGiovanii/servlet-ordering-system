@@ -19,7 +19,7 @@
                       <button class="btn btn-primary" onclick="loadProducts()">Pesquisar</button>
                     </div>
                     <div class="col-2">
-                      <input type="text" class="form-control" id="productName" placeholder="Nome do produto" maxlength="255">
+                      <input type="text" class="form-control" id="productName" placeholder="Nome do produto" maxlength="100">
                     </div>
                     <div class="col-1">
                       <button class="btn btn-secondary" onclick="cleanProductNameAndId()">Limpar</button>
