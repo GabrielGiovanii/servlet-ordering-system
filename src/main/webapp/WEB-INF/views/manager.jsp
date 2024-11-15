@@ -21,6 +21,9 @@
                     <div class="col-2">
                       <input type="text" class="form-control" id="productName" placeholder="Nome do produto" maxlength="255">
                     </div>
+                    <div class="col-2">
+                      <input type="number" class="form-control" id="productId" placeholder="Id do produto" min="1">
+                    </div>
                     <div class="col-1">
                       <button class="btn btn-secondary" onclick="cleanProductName()">Limpar</button>
                     </div>

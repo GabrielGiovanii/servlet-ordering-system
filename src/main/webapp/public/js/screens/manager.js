@@ -7,6 +7,11 @@ async function loadProducts() {
     productContainer.innerHTML = '';
 
     let result = await findProducts();
+
+    if (!result) {
+        return;
+    }
+
     products.length = 0;
     result.forEach(product => products.push(product));
 
@@ -49,12 +54,17 @@ async function loadProducts() {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-5 offset-2">
-                        <button type="button" class="btn btn-primary" onclick="addToCart(${product.id}, this)">Comprar</button>
+                    <div class="col-4 offset-2">
+                        <button type="button" class="btn btn-primary" onclick="updateProduct(${product.id})">Alterar</button>
                     </div>
-                <div class="col-3">
-                    <input type="number" class="custom-input" min="0" value="0" id="quantityInput">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger" onclick="deleteProduct(${product.id})">Excluir</button>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center all-texts fw-bold">Id: ${product.id}</p>
+                    </div>
                 </div>
             </div>
         `;
@@ -63,9 +73,15 @@ async function loadProducts() {
     });
 }
 
+function updateProduct() {
+}
+
+function deleteProduct() {
+}
+
 function cleanProductName() {
-    let productNameInput = document.getElementById("productName");
-    productNameInput.value = "";
+    document.getElementById("productName").value = "";
+    document.getElementById("productId").value = null;
 }
 
 //orders
