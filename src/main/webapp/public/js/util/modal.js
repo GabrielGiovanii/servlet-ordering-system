@@ -80,7 +80,7 @@ async function setUserDataInModal() {
     document.querySelector('.modal-dialog #phone').value = body.phone;
 }
 
-function getUserModal(insertOrUpdate) {
+function getUserModal(insertOrUpdate, roleCode) {
     let registerModalElement = document.getElementById("registerModal");
 
     if (registerModalElement) {
@@ -90,9 +90,9 @@ function getUserModal(insertOrUpdate) {
     document.body.insertAdjacentHTML('beforeend', getUserModalHtml(insertOrUpdate));
 
     if (insertOrUpdate === "insert") {
-        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "saveUser(2, 'insert')");
+        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", `saveUser(${roleCode}, 'insert')`);
     } else if (insertOrUpdate === "update") {
-        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "saveUser(2, 'update')");
+        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", `saveUser(${roleCode}, 'update')`);
         setUserDataInModal();
     }
 

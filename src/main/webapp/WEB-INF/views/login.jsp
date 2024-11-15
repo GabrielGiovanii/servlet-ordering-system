@@ -23,7 +23,7 @@
                             </div>
                             <button type="button" class="btn btn-primary w-100" onclick="authenticate()">Entrar</button>
                         </form>
-                        <button class="btn btn-link w-100" onclick="getUserModal('insert')">Criar novo
+                        <button class="btn btn-link w-100" onclick="getUserModal('insert', 2)">Criar novo
                             usuário</button>
                     </div>
                 </div>

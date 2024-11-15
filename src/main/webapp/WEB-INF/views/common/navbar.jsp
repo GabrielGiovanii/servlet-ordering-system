@@ -30,7 +30,14 @@
                     Usuário
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" onclick="getUserModal('update')">Alterar</a></li>
+                      <%
+                          if (role.equals(Role.ADMIN)) {
+                              out.print("<li><a class=\"dropdown-item\" onclick=\"getUserModal('insert', 1)\">Inserir</a></li>");
+                              out.print("<li><a class=\"dropdown-item\" onclick=\"getUserModal('update', 1)\">Alterar</a></li>");
+                          } else if (role.equals(Role.CLIENT)) {
+                              out.print("<li><a class=\"dropdown-item\" onclick=\"getUserModal('update', 2)\">Alterar</a></li>");
+                          }
+                      %>
                     <li><a class="dropdown-item" onclick="getConfirmationModal('Tem certeza que deseja apagar o seu usuário?', 'deleteUserById(<%= user.getId() %>)')">Excluir</a></li>
                   </ul>
                 </li>
