@@ -264,7 +264,7 @@ async function cancelOrder(id) {
     });
 }
 
-async function makePayment(orderId) {
+async function makePaymentForOrder(orderId) {
     let paymentMethodSelectElement = document.getElementById("paymentMethodSelect");
 
     let responseBody = await insertPayment(orderId, paymentMethodSelectElement.value);

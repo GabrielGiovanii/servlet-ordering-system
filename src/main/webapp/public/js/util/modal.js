@@ -134,7 +134,7 @@ function getPaymentModalHtml(orderId) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" id="modalSaveButton" onclick="makePayment(${orderId})">Salvar</button>
+                        <button type="button" class="btn btn-primary" id="modalSaveButton" onclick="makePaymentForOrder(${orderId})">Salvar</button>
                     </div>
                 </div>
             </div>
