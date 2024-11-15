@@ -1,0 +1,38 @@
+.custom-card {
+    background-color: rgb(205, 205, 205);
+    height: 455px;
+    width: 262px;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 20px;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+.custom-card img {
+    width: 200px;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.custom-card input {
+    width: 50px;
+    height: 100%;
+}
+
+.custom-card p {
+    text-align: justify;
+}
+
+.custom-card .card-description {
+    height: 72px;
+    word-wrap: break-word;
+}
+
+.card-line {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    height: 515px;
+    overflow-y: scroll;
+}
