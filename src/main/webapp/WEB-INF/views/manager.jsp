@@ -12,6 +12,39 @@
               <div class="row">
                 <div class="col">
                   <div class="row window-title">
+                    <h1>Categorias</h1>
+                  </div>
+                  <div class="row menu-bar">
+                    <div class="col-1">
+                      <button class="btn btn-primary" onclick="loadCategories()">Pesquisar</button>
+                    </div>
+                    <div class="col-1">
+                      <button class="btn btn-success" onclick="getCategoryModal('insert', null, this)">Inserir</button>
+                    </div>
+                    <div class="col-2">
+                      <input type="number" class="form-control" id="categoryId" placeholder="Id da categoria" min="1">
+                    </div>
+                    <div class="col-1">
+                      <button class="btn btn-secondary" onclick="cleaningCategoryNameAndId()">Limpar</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <table class="table table-striped" id="categoryTable">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Id</th>
+                          <th class="text-center">Nome</th>
+                          <th class="text-center">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="row window-title">
                     <h1>Produtos</h1>
                   </div>
                   <div class="row menu-bar">

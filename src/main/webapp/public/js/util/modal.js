@@ -155,3 +155,73 @@ function getPaymentModal(orderId) {
 
     showCustomEntityFormModal();
 }
+
+function getCategoryModalHtml(insertOrUpdate) {
+    let modalTitle;
+
+    if (insertOrUpdate === "insert") {
+        modalTitle = "Registrar Categoria";
+    } else if (insertOrUpdate === "update") {
+        modalTitle = "Alterar Categoria";
+    }
+
+    let categoryModalHtml =  `
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">${modalTitle}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="modalForm">
+                            <div class="mb-3">
+                                <label class="form-label" for="id">Id</label>
+                                <input class="form-control" id="id" name="id" type="text" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Nome*</label>
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Insira o nome da categoria"
+                                    required maxlength="100">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="modalSaveButton">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return categoryModalHtml;
+}
+
+async function setCategoryDataInModal(categoryId) {
+    if (categoryId) {
+        let body = await findCategoryById(categoryId);
+
+        document.querySelector('.modal-dialog #id').value = body.id;
+        document.querySelector('.modal-dialog #name').value = body.name;
+    }
+}
+
+function getCategoryModal(insertOrUpdate, categoryId) {
+    let registerModalElement = document.getElementById("registerModal");
+
+    if (registerModalElement) {
+        registerModalElement.remove();
+    }
+
+    document.body.insertAdjacentHTML('beforeend', getCategoryModalHtml(insertOrUpdate));
+
+    if (insertOrUpdate === "insert") {
+        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", "insertCategoryInTable()");
+    } else if (insertOrUpdate === "update") {
+        document.querySelector(".modal-dialog #modalSaveButton").setAttribute("onclick", `updateCategoryInTable(${categoryId})`);
+        setCategoryDataInModal(categoryId);
+    }
+
+    showCustomEntityFormModal();
+}

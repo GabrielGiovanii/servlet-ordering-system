@@ -1,6 +1,121 @@
+//categories
+const categories = [];
+
+async function loadCategories() {
+    let orderTableContainer = document.querySelector("#categoryTable tbody");
+    orderTableContainer.innerHTML = '';
+
+    let result = await findCategories();
+
+    if (!result) {
+        return;
+    }
+
+    categories.length = 0;
+    result.forEach(category => categories.push(category));
+
+    addCategoryToCategoryTable(result);
+}
+
+function addCategoryToCategoryTable(responseBody) {
+    let orderTableContainer = document.querySelector("#categoryTable tbody");
+
+    responseBody.forEach(item => {
+        let categoryId = item.id;
+
+        let orderLine = `
+        <tr>
+            <td id="categoryId" class="text-center">${categoryId}</td>
+            <td id="categoryName" class="text-center">${truncateText(item.name, 28)}</td>
+            <td class="text-center">
+                <button class="btn btn-success btn-sm" onclick="getCategoryModal('update', ${categoryId})">Alterar</button>
+                <button class="btn btn-danger btn-sm" 
+                    onclick="getConfirmationModal('Tem certeza que deseja deletar a categoria com id ${categoryId}?', 'deleteCategoryInTable(${categoryId})')"
+                    >Deletar
+                </button>
+            </td>
+        </tr>
+    `;
+
+    orderTableContainer.innerHTML += orderLine;
+    });
+}
+
+async function insertCategoryInTable() {
+    let responseBody = await saveCategory(null, 'insert');
+
+    if (responseBody) {
+        categories.push(responseBody);
+
+        responseBody = [responseBody];
+        addCategoryToCategoryTable(responseBody);
+    }
+}
+
+
+function updateOrDeleteCategoryRow(updateOrDelete, responseBody, categoryId) {
+    let categoryTableContainer = document.querySelector("#categoryTable tbody");
+
+    if (!categoryId) {
+        categoryId = responseBody.id;
+    }
+
+    let rowElementToDelete;
+
+    categoryTableContainer.querySelectorAll("tr").forEach(row => {
+        let categoryIdElement = row.querySelector("#categoryId");
+
+        if (parseInt(categoryIdElement.textContent) === categoryId) {
+            if (updateOrDelete === 'update') {
+                let nameElement = row.querySelector("#categoryName");
+
+                nameElement.innerHTML = responseBody.name;
+            } else if (updateOrDelete === 'delete') {
+                rowElementToDelete = row;
+            }
+        }
+    });
+
+    if (rowElementToDelete) {
+        rowElementToDelete.remove();
+    }
+}
+
+async function updateCategoryInTable(categoryId) {
+    let responseBody = await saveCategory(categoryId, 'update');
+
+    if (responseBody) {
+        let itemIndex = categories.findIndex(item => item.id === categoryId);
+
+        let item = categories[itemIndex];
+
+        if (item) {
+            updateOrDeleteCategoryRow('update', responseBody, null);
+        }
+    }
+}
+
+async function deleteCategoryInTable(categoryId) {
+    let responseBody = await deleteCategoryById(categoryId);
+
+    if (responseBody) {
+        let itemIndex = categories.findIndex(item => item.id === categoryId);
+
+        let item = categories[itemIndex];
+
+        if (item) {
+            updateOrDeleteCategoryRow('delete', responseBody, categoryId);
+        }
+    }
+}
+
+function cleaningCategoryNameAndId() {
+    document.getElementById("categoryName").value = "";
+    document.getElementById("categoryId").value = null;
+}
+
 //products
-const products = [
-];
+const products = [];
 
 async function loadProducts() {
     let productContainer = document.querySelector(".card-line");
