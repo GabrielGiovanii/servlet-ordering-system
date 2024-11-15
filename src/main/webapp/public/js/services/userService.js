@@ -78,14 +78,16 @@ async function findUserById(id) {
 
 async function deleteUserById(id) {
     try {
-        await makeApiRequest('users/' + id, 'DELETE', null, false);
+        let response = await makeApiRequest('users/' + id, 'DELETE', null, false);
 
-        var destinationPath = window.location.href;
+        if (response) {
+            var destinationPath = window.location.href;
 
-        let slicedUrl = destinationPath.split('/').slice(0, -1).join('/');
-
-        destinationPath = slicedUrl + "/logout";
-        window.location.href = destinationPath;
+            let slicedUrl = destinationPath.split('/').slice(0, -1).join('/');
+    
+            destinationPath = slicedUrl + "/logout";
+            window.location.href = destinationPath;
+        }
     } catch (error) {
         showCustomToast("Erro inesperado na deleção de usuário pelo id.", "red");
      }
