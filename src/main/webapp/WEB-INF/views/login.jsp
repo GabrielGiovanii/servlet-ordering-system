@@ -2,7 +2,6 @@
 
     <%@ include file="common/head.jsp" %>
             <script src="public/js/services/authService.js" defer></script>
-            <script src="public/js/enums/role.js" defer></script>
         </head>
 
         <body>
