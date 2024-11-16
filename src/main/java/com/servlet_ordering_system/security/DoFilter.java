@@ -207,7 +207,7 @@ public class DoFilter implements Filter {
         boolean isServletMapped = false;
 
         for (ServletRegistration servlet : context.getServletRegistrations().values()) {
-            if (servlet.getMappings().contains(servletPath)) {
+            if (servlet.getMappings().toString().substring(1).startsWith(servletPath)) {
                 isServletMapped = true;
                 break;
             }

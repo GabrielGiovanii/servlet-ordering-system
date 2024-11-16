@@ -68,7 +68,7 @@ public class ProductService implements CrudService<Product>, DtoConverter<Produc
             obj.setImgUrl(productDTO.getImgUrl());
 
             Category category = new Category();
-            category.setId(Objects.requireNonNull(productDTO).getId());
+            category.setId(Objects.requireNonNull(productDTO).getCategoryId());
 
             obj.setCategory(category);
             category.getProducts().add(obj);
