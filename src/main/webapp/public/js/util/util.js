@@ -110,5 +110,15 @@ function formatPrice(price) {
 }
 
 function unformatPrice(formattedPrice) {
-    return parseFloat(formattedPrice.replace(/[\R$\s.]/g, '').replace(',', '.'));
+    let cleanedPrice = formattedPrice.replace(/[^\d,\.]/g, '');
+    
+    const decimalCount = (cleanedPrice.match(/[.,]/g) || []).length;
+    
+    if (decimalCount > 1) {
+        return null;
+    }
+
+    cleanedPrice = cleanedPrice.replace(',', '.');
+    
+    return parseFloat(cleanedPrice);
 }

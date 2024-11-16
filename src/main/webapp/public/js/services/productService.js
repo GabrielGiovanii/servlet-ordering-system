@@ -10,7 +10,14 @@ async function saveProduct(productId, insertOrUpdate) {
         id = productId;
     }
 
-    price = unformatPrice(price);
+    let unformattedPrice = unformatPrice(price);
+
+    if (price && !unformattedPrice) {
+        showCustomToast("Formato do preço está incorreto. formato esperado: R$ 79,99 ou 79,99", "orange");
+        return;
+    }
+
+    price = unformattedPrice;
 
     if (!name || !price || !imgUrl) {
         showCustomToast("Todos os campos obrigatórios devem ser preenchidos.", "red");

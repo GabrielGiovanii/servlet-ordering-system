@@ -263,7 +263,7 @@ async function getProductModalHtml(insertOrUpdate) {
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="price">Preço*</label>
-                                <input class="form-control" id="price" name="price" type="text" placeholder="R$ 79,99"
+                                <input class="form-control" id="price" name="price" type="text" placeholder="R$ 79,99 ou 79,99"
                                     required maxlength="11">
                             </div>
                             <div class="mb-3">
