@@ -52,7 +52,6 @@ async function insertCategoryInTable() {
     }
 }
 
-
 function updateOrDeleteCategoryRow(updateOrDelete, responseBody, categoryId) {
     let categoryTableContainer = document.querySelector("#categoryTable tbody");
 
@@ -118,9 +117,6 @@ function cleaningCategoryNameAndId() {
 const products = [];
 
 async function loadProducts() {
-    let productContainer = document.querySelector(".card-line");
-    productContainer.innerHTML = '';
-
     let result = await findProducts();
 
     if (!result) {
@@ -130,17 +126,26 @@ async function loadProducts() {
     products.length = 0;
     result.forEach(product => products.push(product));
 
-    products.forEach(product => {
+    let productContainer = document.querySelector(".card-line");
+    productContainer.innerHTML = '';
+
+    addProductIntoCardLine(result);
+}
+
+function addProductIntoCardLine(responseBody) {
+    let productContainer = document.querySelector(".card-line");
+
+    responseBody.forEach(product => {
         let productCardHTML = `
             <div class="col-3 custom-card">
                 <div class="row">
                     <div class="col text-center">
-                        <h1 class="fs-5 all-texts">${truncateText(product.name, 28)}</h1>
+                        <h1 class="fs-5 all-texts" id ="productNameId">${truncateText(product.name, 28)}</h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col text-center">
-                        <img src="${product.imgUrl}" class="card-img-top custom-img" alt="...">
+                        <img src="${product.imgUrl}" class="card-img-top custom-img" id ="imgUrlId">
                     </div>
                 </div>
                 <div class="row">
@@ -150,7 +155,7 @@ async function loadProducts() {
                         </p>
                     </div>
                     <div class="col-6">
-                        <p class="text-center all-texts">${truncateText(product.categoryName, 15)}</p>
+                        <p class="text-center all-texts" id="categoryNameId">${truncateText(product.categoryName, 15)}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -160,25 +165,26 @@ async function loadProducts() {
                         </p>
                     </div>
                     <div class="col-6">
-                        <p class="text-center">${formatPrice(product.price)}</p>
+                        <p class="text-center" id="priceProductId">${formatPrice(product.price)}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="card-description">${truncateText(product.description, 107)}</p>
+                        <p class="card-description" id="descriptionProductId">${truncateText(product.description, 107)}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4 offset-2">
-                        <button type="button" class="btn btn-primary" onclick="updateProduct(${product.id})">Alterar</button>
+                        <button type="button" class="btn btn-primary" onclick="getProductModal('update', ${product.id})">Alterar</button>
                     </div>
                     <div class="col-4">
-                        <button type="button" class="btn btn-danger" onclick="deleteProduct(${product.id})">Excluir</button>
+                        <button type="button" class="btn btn-danger" onclick="getConfirmationModal('Tem certeza que deseja apagar o produto com id ${product.id}?', 'deleteProductInCardLine(${product.id})')">Excluir</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <p class="text-center all-texts fw-bold">Id: ${product.id}</p>
+                        <input type="hidden" id="productId" value="${product.id}">
                     </div>
                 </div>
             </div>
@@ -188,10 +194,79 @@ async function loadProducts() {
     });
 }
 
-function updateProduct() {
+async function insertProductInCardLine() {
+    let responseBody = await saveProduct(null, 'insert');
+
+    if (responseBody) {
+        products.push(responseBody);
+
+        responseBody = [responseBody];
+        addProductIntoCardLine(responseBody);
+    }
 }
 
-function deleteProduct() {
+function updateOrDeleteProductCol(updateOrDelete, responseBody, productId) {
+    let productContainer = document.querySelector(".card-line");
+
+    if (!productId) {
+        productId = responseBody.id;
+    }
+
+    let cardElementToDelete;
+
+    productContainer.querySelectorAll(".custom-card").forEach(card => {
+        let productIdElement = card.querySelector("#productId");
+
+        if (parseInt(productIdElement.value) === productId) {
+            if (updateOrDelete === 'update') {
+                let productNameIdElement = card.querySelector("#productNameId");
+                let imgUrlIdElement = card.querySelector("#imgUrlId");
+                let categoryNameIdElement = card.querySelector("#categoryNameId");
+                let priceProductIdElement = card.querySelector("#priceProductId");
+                let descriptionProductIdElement = card.querySelector("#descriptionProductId");
+
+                productNameIdElement.innerHTML = truncateText(responseBody.name, 28);
+                imgUrlIdElement.src = responseBody.imgUrl;
+                categoryNameIdElement.innerHTML = truncateText(responseBody.categoryName, 15);
+                priceProductIdElement.innerHTML = responseBody.price;
+                descriptionProductIdElement.innerHTML = truncateText(responseBody.description, 107);
+            } else if (updateOrDelete === 'delete') {
+                cardElementToDelete = card;
+            }
+        }
+    });
+
+    if (cardElementToDelete) {
+        cardElementToDelete.remove();
+    }
+}
+
+async function updateProductInCardLine(productId) {
+    let responseBody = await saveProduct(categoryId, 'update');
+
+    if (responseBody) {
+        let itemIndex = products.findIndex(item => item.id === productId);
+
+        let item = products[itemIndex];
+
+        if (item) {
+            updateOrDeleteProductCol('update', responseBody, null);
+        }
+    }
+}
+
+async function deleteProductInCardLine(productId) {
+    let responseBody = await deleteProductById(productId);
+
+    if (responseBody) {
+        let itemIndex = products.findIndex(item => item.id === productId);
+
+        let item = products[itemIndex];
+
+        if (item) {
+            updateOrDeleteProductCol('delete', responseBody, productId);
+        }
+    }
 }
 
 function cleanProductNameAndId() {

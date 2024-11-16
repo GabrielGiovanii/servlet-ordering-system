@@ -51,6 +51,9 @@
                     <div class="col-1">
                       <button class="btn btn-primary" onclick="loadProducts()">Pesquisar</button>
                     </div>
+                    <div class="col-1">
+                      <button class="btn btn-success" onclick="getProductModal('insert', 1)">Inserir</button>
+                    </div>
                     <div class="col-2">
                       <input type="text" class="form-control" id="productName" placeholder="Nome do produto" maxlength="100">
                     </div>
