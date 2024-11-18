@@ -54,10 +54,14 @@ async function findProducts() {
     let productIdElement = document.getElementById("productId");
 
     let productName = productNameInput.value;
-    let productId = parseInt(productIdElement.value);
+    let productId;
+
+    if (productIdElement) {
+        productId = parseInt(productIdElement.value);
+    }
 
     let body;
-    if (productName && productId) {
+    if (productName && productIdElement && productId) {
         showCustomToast("Não é possível pesquisar por nome e id do produto de maneira simultânea", "orange");
         return;
     } else if (productName) {
